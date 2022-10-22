@@ -98,7 +98,7 @@ class App extends Component {
     const scrape = httpsCallable(this.functions, "scrape");
 
 
-    scrape({background: this.state.background}).then((result) => 
+    scrape({background: this.state.background, title: "test", emphasis: "emphasis"}).then((result) => 
     {
       // Read result of the Cloud Function.
       console.log(result);
@@ -230,7 +230,11 @@ class App extends Component {
           <option value="icon">Icon</option>
           <option value="heroes">Heroes</option>
         </select>
-        <label for="background">Background</label>
+        <label for="background">Background</label><br/>
+        <input type="text" id="title" />
+        <label for="title">Title</label><br/><br/>
+        <input type="text" id="emphasis" />
+        <label for="emphasis">Emphasis</label><br/><br/>
         <Button onClick={this.generateGraphic} variant="contained">
                 Generate Graphic
               </Button>
