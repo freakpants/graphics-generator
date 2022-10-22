@@ -614,5 +614,6 @@ h1 {
 .loader{
   transform: scale(3);
   transform-origin: center;
-  margin-top: 200px;
+  bottom: 50%;
+  position: absolute;
 }
