@@ -91,6 +91,7 @@ h1 {
 .filter {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 
   & .MuiFormGroup-root {
     width: 100%;
@@ -99,16 +100,22 @@ h1 {
     align-items: center;
   }
 
-  & input {
+
+  & input, & label {
     background-color: $light-gray;
-    border: 1px solid $lighter-gray;
-    border-radius: .5rem;
-    color: $white;
+
+    color: $lighter-gray;
     font-family: $base-font-family;
     font-size: 1.2rem;
+  }
+
+  & input {
     padding: 1rem;
     min-width: 25rem;
     font-weight: normal;
+    border: 1px solid $lighter-gray;
+    border-radius: .5rem;
+    color: $white;
 
     @media only screen and (max-width: 768px) {
         width: 80%;

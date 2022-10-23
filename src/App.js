@@ -16,9 +16,9 @@ import React, { Component } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Twitter from "./assets/twitter.svg";
 
-import { Button } from "@mui/material";
+import { Accordion, Button, FormGroup, TextField, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
 import Logo from "./assets/logopc.png";
-import Loader from 'react-loaders'
+import Loader from "react-loaders";
 import axios from "axios";
 
 class App extends Component {
@@ -33,6 +33,7 @@ class App extends Component {
       rarity: "",
       limit: "",
       prices: false,
+      optionsExpanded: false,
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -41,6 +42,7 @@ class App extends Component {
     this.change = this.change.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleOptionExpansion = this.handleOptionExpansion.bind(this);
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -56,13 +58,13 @@ class App extends Component {
         "https://pack-collector-default-rtdb.europe-west1.firebasedatabase.app/",
     };
 
-
-
     const fireApp = initializeApp(firebaseConfig);
 
     const appCheck = initializeAppCheck(fireApp, {
-      provider: new ReCaptchaV3Provider('6Lfj7aAiAAAAAOZtB0a6MNtSRdFFdCxk5hCPkjWC'),
-      isTokenAutoRefreshEnabled: true
+      provider: new ReCaptchaV3Provider(
+        "6Lfj7aAiAAAAAOZtB0a6MNtSRdFFdCxk5hCPkjWC"
+      ),
+      isTokenAutoRefreshEnabled: true,
     });
 
     this.appCheck = appCheck;
@@ -71,7 +73,7 @@ class App extends Component {
 
     const functions = getFunctions(fireApp);
     this.functions = functions;
-    
+
     const analytics = getAnalytics(fireApp);
     this.analytics = analytics;
 
@@ -100,41 +102,34 @@ class App extends Component {
   }
 
   generateGraphic() {
-
-    this.setState({image: "loading"});
+    this.setState({ image: "loading", optionsExpanded: false });
 
     // call the firebase function
     const scrape = httpsCallable(this.functions, "scrape");
 
-
     scrape({
-      background: this.state.background, 
-      title: this.state.title, 
+      background: this.state.background,
+      title: this.state.title,
       emphasis: this.state.emphasis,
       rarity: this.state.rarity,
       limit: this.state.limit,
-      prices : this.state.prices ? "1" : ""
-    }).then((result) => 
-    {
+      prices: this.state.prices ? "1" : "",
+    }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
 
-      this.setState({image: result.data});
-
+      this.setState({ image: result.data });
     });
 
     // const generateGraphic = this.functions().httpsCallable("scrape");
 
-    
-    
     // generateGraphic({ url: "google.com" })
     //   .then((result) => {
     //     // Read result of the Cloud Function.
     //     const sanitizedMessage = result.data.text;
     //     console.log(sanitizedMessage);
     //   }
-    // ); 
-      
+    // );
   }
 
   componentDidMount() {
@@ -161,8 +156,8 @@ class App extends Component {
         console.log(errorMessage);
       });
 
-      // get the rarities from the database
-      axios
+    // get the rarities from the database
+    axios
       .get(process.env.REACT_APP_AJAXSERVER + "getRarities.php")
       .then((response) => {
         this.setState({ rarities: response.data });
@@ -177,8 +172,8 @@ class App extends Component {
     signInWithRedirect(this.auth, this.GoogleAuthProvider);
   }
 
-  change(event){
-    this.setState({background: event.target.value});
+  change(event) {
+    this.setState({ background: event.target.value });
   }
 
   handleInputChange(event) {
@@ -194,11 +189,18 @@ class App extends Component {
       let oldState = prevState[name];
       return {
         [name]: !oldState,
-      }
+      };
     });
   }
-    
 
+  handleOptionExpansion() {
+    this.setState((prevState) => {
+      let oldState = prevState["optionsExpanded"];
+      return {
+        optionsExpanded: !oldState,
+      };
+    });
+  }
 
   render() {
     const theme = createTheme({
@@ -206,6 +208,14 @@ class App extends Component {
         fontFamily: "Matroska",
         fontSize: 12,
         color: "#F8EEDE",
+      },
+      palette: {
+        primary: {
+          main: '#ff6a00',
+        },
+        secondary: {
+          main: '#edf2ff',
+        },
       },
     });
 
@@ -260,58 +270,112 @@ class App extends Component {
             </a>
           </div>
         </div>
-        
-        {this.state.image !== "loading" && (
-        <div id="selector">
-        <select id="background" onChange={this.change} value={this.state.background}>
-          <option value="generic">Generic Fifa 23</option>
-          <option value="totw">TOTW</option>
-          <option value="otw">OTW</option>
-          <option value="uefa">UEFA</option>
-          <option value="rulebreakers">Rulebreakers</option>
-          <option value="icon">Icon</option>
-          <option value="heroes">Heroes</option>
-        </select>
-        <label for="background">Background</label><br/>
-        {this.state.rarities.length > 0 && (
-          <select id="rarity" onChange={this.handleInputChange} name="rarity" value={this.state.rarity}>
-            <option key="0" value="">Select Rarity</option> 
-            {this.state.rarities.map((rarity) => (
-              <option key={rarity.id} value={rarity.param}>
-                {rarity.name}
-              </option>
-            ))}
-          </select>
-        )}
-        <label for ="rarity">Card Type</label><br/>
-        <input type="text" onChange={this.handleInputChange} name="title" id="title" value={this.state.title} />
-        <label for="title">Title</label><br/><br/>
-        <input type="text" onChange={this.handleInputChange} name="emphasis" id="emphasis" value={this.state.emphasis} />
-        <label for="emphasis">Emphasis</label><br/><br/>
-        <input type="text" onChange={this.handleInputChange} name="limit" id="limit" value={this.state.limit} />
-        <label for="limit">Limit</label><br/><br/>
 
-        <input type="checkbox" checked={this.state.prices} onChange={this.handleCheckboxChange} name="prices" id="prices" />
-        <label for="prices">Prices</label><br/><br/>
+        <div className={"filter"}>
+            <Accordion expanded={this.state.optionsExpanded} onChange={this.handleOptionExpansion}>
+              <AccordionSummary>
+                <Typography>Options</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                
+                <FormGroup >
+              <select
+                id="background"
+                onChange={this.change}
+                value={this.state.background}
+              >
+                <option value="generic">Generic Fifa 23</option>
+                <option value="totw">TOTW</option>
+                <option value="otw">OTW</option>
+                <option value="uefa">UEFA</option>
+                <option value="rulebreakers">Rulebreakers</option>
+                <option value="icon">Icon</option>
+                <option value="heroes">Heroes</option>
+              </select>
+              <label for="background">Background</label>
+              <br />
+              {this.state.rarities.length > 0 && (
+                <select
+                  id="rarity"
+                  onChange={this.handleInputChange}
+                  name="rarity"
+                  value={this.state.rarity}
+                >
+                  <option key="0" value="">
+                    Select Rarity
+                  </option>
+                  {this.state.rarities.map((rarity) => (
+                    <option key={rarity.id} value={rarity.param}>
+                      {rarity.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+              <label for="rarity">Card Type</label>
+              <br />
+              <TextField
+                name="title"
+                id="title"
+                onChange={this.handleInputChange}
+                value={this.state.title}
+                label="Title"
+              />
+              <br />
+              <br />
+              <TextField
+                name="emphasis"
+                id="emphasis"
+                onChange={this.handleInputChange}
+                value={this.state.emphasis}
+                label="Emphasis"
+              />
 
-        <Button onClick={this.generateGraphic} variant="contained">
+              <br />
+              <br />
+              <input
+                type="text"
+                onChange={this.handleInputChange}
+                name="limit"
+                id="limit"
+                value={this.state.limit}
+              />
+              <label for="limit">Limit</label>
+              <br />
+              <br />
+
+              <input
+                type="checkbox"
+                checked={this.state.prices}
+                onChange={this.handleCheckboxChange}
+                name="prices"
+                id="prices"
+              />
+              <label for="prices">Prices</label>
+              <br />
+              <br />
+
+              <Button onClick={this.generateGraphic} variant="contained">
                 Generate Graphic
               </Button>
-        </div>
-        )}
+            </FormGroup>
+              </AccordionDetails>
 
-              <div className={"graphic-wrapper"}>
-        {this.state.image !== "" && this.state.image !== "loading" && (
-          
-            <img alt="Loader" className={"graphic"} src={`data:image/png;base64,${this.state.image}`} />
-          
-        )}
-        {
-          this.state.image === "loading" && (
-            <Loader type="line-scale" active />)
-        }
+
+            </Accordion>
         </div>
 
+        <div className={"graphic-wrapper"}>
+          {this.state.image !== "" && this.state.image !== "loading" && (
+            <img
+              alt="Loader"
+              className={"graphic"}
+              src={`data:image/png;base64,${this.state.image}`}
+            />
+          )}
+          {this.state.image === "loading" && (
+            <Loader type="line-scale" active />
+          )}
+        </div>
       </ThemeProvider>
     );
   }
