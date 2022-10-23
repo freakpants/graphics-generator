@@ -19,6 +19,7 @@ import Twitter from "./assets/twitter.svg";
 import { Button } from "@mui/material";
 import Logo from "./assets/logopc.png";
 import Loader from 'react-loaders'
+import axios from "axios";
 
 class App extends Component {
   constructor(props) {
@@ -26,12 +27,20 @@ class App extends Component {
     this.state = {
       image: "",
       background: "generic",
+      title: "",
+      emphasis: "",
+      rarities: [],
+      rarity: "",
+      limit: "",
+      prices: false,
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
     this.triggerGoogleLogin = this.triggerGoogleLogin.bind(this);
     this.generateGraphic = this.generateGraphic.bind(this);
     this.change = this.change.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -98,7 +107,14 @@ class App extends Component {
     const scrape = httpsCallable(this.functions, "scrape");
 
 
-    scrape({background: this.state.background, title: "test", emphasis: "emphasis"}).then((result) => 
+    scrape({
+      background: this.state.background, 
+      title: this.state.title, 
+      emphasis: this.state.emphasis,
+      rarity: this.state.rarity,
+      limit: this.state.limit,
+      prices : this.state.prices ? "1" : ""
+    }).then((result) => 
     {
       // Read result of the Cloud Function.
       console.log(result);
@@ -144,6 +160,13 @@ class App extends Component {
 
         console.log(errorMessage);
       });
+
+      // get the rarities from the database
+      axios
+      .get(process.env.REACT_APP_AJAXSERVER + "getRarities.php")
+      .then((response) => {
+        this.setState({ rarities: response.data });
+      });
   }
 
   triggerTwitterLogin() {
@@ -157,6 +180,25 @@ class App extends Component {
   change(event){
     this.setState({background: event.target.value});
   }
+
+  handleInputChange(event) {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleCheckboxChange(event) {
+    const { name } = event.target;
+    this.setState((prevState) => {
+      let oldState = prevState[name];
+      return {
+        [name]: !oldState,
+      }
+    });
+  }
+    
+
 
   render() {
     const theme = createTheme({
@@ -231,10 +273,27 @@ class App extends Component {
           <option value="heroes">Heroes</option>
         </select>
         <label for="background">Background</label><br/>
-        <input type="text" id="title" />
+        {this.state.rarities.length > 0 && (
+          <select id="rarity" onChange={this.handleInputChange} name="rarity" value={this.state.rarity}>
+            <option key="0" value="">Select Rarity</option> 
+            {this.state.rarities.map((rarity) => (
+              <option key={rarity.id} value={rarity.param}>
+                {rarity.name}
+              </option>
+            ))}
+          </select>
+        )}
+        <label for ="rarity">Card Type</label><br/>
+        <input type="text" onChange={this.handleInputChange} name="title" id="title" value={this.state.title} />
         <label for="title">Title</label><br/><br/>
-        <input type="text" id="emphasis" />
+        <input type="text" onChange={this.handleInputChange} name="emphasis" id="emphasis" value={this.state.emphasis} />
         <label for="emphasis">Emphasis</label><br/><br/>
+        <input type="text" onChange={this.handleInputChange} name="limit" id="limit" value={this.state.limit} />
+        <label for="limit">Limit</label><br/><br/>
+
+        <input type="checkbox" checked={this.state.prices} onChange={this.handleCheckboxChange} name="prices" id="prices" />
+        <label for="prices">Prices</label><br/><br/>
+
         <Button onClick={this.generateGraphic} variant="contained">
                 Generate Graphic
               </Button>
