@@ -74,9 +74,11 @@ h1 {
       color: $beige;
       text-decoration: none;
       text-transform: uppercase;
+      margin-right: 1rem;
 
       &:hover {
         border-bottom: 2px solid $orange;
+        cursor: pointer;
       }
     }
   }
@@ -92,6 +94,35 @@ h1 {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  max-width: 35rem;
+  border-radius: .5rem;
+  margin: 1rem auto;
+  border: 1px solid $beige;
+
+  &__item {
+    margin-bottom: 1rem;
+  }
+
+  & .MuiPaper-root {
+    background-color: #2d2823;
+    color: $beige;
+    border-radius: .5rem!important;
+  }
+
+  & button {
+    color: $white;
+    font-family: 'UltimateTeamCondensed';
+    font-size: 1rem;
+  }
+
+  & .MuiTypography-body1{
+    margin: 0;
+    font-family: 'UltimateTeamCondensed';
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
 
   & .MuiFormGroup-root {
     width: 100%;

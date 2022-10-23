@@ -251,16 +251,14 @@ class App extends Component {
               target="_blank"
             >
               <img alt="Twitter Logo" src={Twitter} /> FUT Coder
-            </a>{" "}
-            x{" "}
+            </a>
             <a
               href="https://twitter.com/Kimpembro"
               rel="noreferrer"
               target="_blank"
             >
               <img alt="Twitter Logo" src={Twitter} /> Kimpembro
-            </a>{" "}
-            x{" "}
+            </a>
             <a
               href="https://twitter.com/Fleck_GFX"
               rel="noreferrer"
@@ -274,26 +272,28 @@ class App extends Component {
         <div className={"filter"}>
             <Accordion expanded={this.state.optionsExpanded} onChange={this.handleOptionExpansion}>
               <AccordionSummary>
-                <Typography>Options</Typography>
+                <Typography>Please choose your options...</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 
-                <FormGroup >
-              <select
-                id="background"
-                onChange={this.change}
-                value={this.state.background}
-              >
-                <option value="generic">Generic Fifa 23</option>
-                <option value="totw">TOTW</option>
-                <option value="otw">OTW</option>
-                <option value="uefa">UEFA</option>
-                <option value="rulebreakers">Rulebreakers</option>
-                <option value="icon">Icon</option>
-                <option value="heroes">Heroes</option>
-              </select>
-              <label for="background">Background</label>
-              <br />
+              <FormGroup>
+              <div class="filter__item">
+                <select
+                  id="background"
+                  onChange={this.change}
+                  value={this.state.background}
+                >
+                  <option value="generic">Generic Fifa 23</option>
+                  <option value="totw">TOTW</option>
+                  <option value="otw">OTW</option>
+                  <option value="uefa">UEFA</option>
+                  <option value="rulebreakers">Rulebreakers</option>
+                  <option value="icon">Icon</option>
+                  <option value="heroes">Heroes</option>
+                </select>
+                <label for="background">Background</label>
+              </div>
+              <div class="filter__item">
               {this.state.rarities.length > 0 && (
                 <select
                   id="rarity"
@@ -312,7 +312,8 @@ class App extends Component {
                 </select>
               )}
               <label for="rarity">Card Type</label>
-              <br />
+              </div>
+              <div class="filter__item">
               <TextField
                 name="title"
                 id="title"
@@ -320,8 +321,8 @@ class App extends Component {
                 value={this.state.title}
                 label="Title"
               />
-              <br />
-              <br />
+              </div>
+              <div class="filter__item">
               <TextField
                 name="emphasis"
                 id="emphasis"
@@ -329,20 +330,17 @@ class App extends Component {
                 value={this.state.emphasis}
                 label="Emphasis"
               />
-
-              <br />
-              <br />
-              <input
-                type="text"
-                onChange={this.handleInputChange}
+              </div>
+              <div class="filter__item">
+              <TextField
                 name="limit"
                 id="limit"
+                onChange={this.handleInputChange}
                 value={this.state.limit}
+                label="Limit"
               />
-              <label for="limit">Limit</label>
-              <br />
-              <br />
-
+              </div>
+              <div class="filter__item">
               <input
                 type="checkbox"
                 checked={this.state.prices}
@@ -351,9 +349,7 @@ class App extends Component {
                 id="prices"
               />
               <label for="prices">Prices</label>
-              <br />
-              <br />
-
+              </div>
               <Button onClick={this.generateGraphic} variant="contained">
                 Generate Graphic
               </Button>
