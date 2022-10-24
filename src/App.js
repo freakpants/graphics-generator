@@ -16,7 +16,7 @@ import React, { Component } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Twitter from "./assets/twitter.svg";
 
-import { Accordion, Button, FormGroup, TextField, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
+import { Accordion, Button, FormGroup, TextField, AccordionSummary, AccordionDetails, Typography, FormControlLabel, Checkbox } from "@mui/material";
 import Logo from "./assets/logopc.png";
 import Loader from "react-loaders";
 import axios from "axios";
@@ -26,7 +26,7 @@ class App extends Component {
     super(props);
     this.state = {
       image: "",
-      background: "generic",
+      background: "0",
       title: "",
       emphasis: "",
       rarities: [],
@@ -251,16 +251,14 @@ class App extends Component {
               target="_blank"
             >
               <img alt="Twitter Logo" src={Twitter} /> FUT Coder
-            </a>{" "}
-            x{" "}
+            </a>
             <a
               href="https://twitter.com/Kimpembro"
               rel="noreferrer"
               target="_blank"
             >
               <img alt="Twitter Logo" src={Twitter} /> Kimpembro
-            </a>{" "}
-            x{" "}
+            </a>
             <a
               href="https://twitter.com/Fleck_GFX"
               rel="noreferrer"
@@ -274,86 +272,85 @@ class App extends Component {
         <div className={"filter"}>
             <Accordion expanded={this.state.optionsExpanded} onChange={this.handleOptionExpansion}>
               <AccordionSummary>
-                <Typography>Options</Typography>
+                <Typography>Please choose your options...</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 
-                <FormGroup >
-              <select
-                id="background"
-                onChange={this.change}
-                value={this.state.background}
-              >
-                <option value="generic">Generic Fifa 23</option>
-                <option value="totw">TOTW</option>
-                <option value="otw">OTW</option>
-                <option value="uefa">UEFA</option>
-                <option value="rulebreakers">Rulebreakers</option>
-                <option value="icon">Icon</option>
-                <option value="heroes">Heroes</option>
-              </select>
-              <label for="background">Background</label>
-              <br />
-              {this.state.rarities.length > 0 && (
+              <FormGroup>
+              <div class="filter__item">
                 <select
-                  id="rarity"
-                  onChange={this.handleInputChange}
-                  name="rarity"
-                  value={this.state.rarity}
+                  id="background"
+                  onChange={this.change}
+                  value={this.state.background}
                 >
-                  <option key="0" value="">
-                    Select Rarity
-                  </option>
-                  {this.state.rarities.map((rarity) => (
-                    <option key={rarity.id} value={rarity.param}>
-                      {rarity.name}
-                    </option>
-                  ))}
+                  <option key="0" value="0">-- Please choose a background --</option>
+                  <option value="generic">Generic Fifa 23</option>
+                  <option value="heroes">Heroes</option>
+                  <option value="icon">Icon</option>
+                  <option value="otw">OTW</option>
+                  <option value="rulebreakers">Rulebreakers</option>
+                  <option value="totw">TOTW</option>
+                  <option value="uefa">UEFA</option>
                 </select>
-              )}
-              <label for="rarity">Card Type</label>
-              <br />
-              <TextField
+              </div>
+              <div class="filter__item">
+                {this.state.rarities.length > 0 && (
+                  <select
+                    id="rarity"
+                    onChange={this.handleInputChange}
+                    name="rarity"
+                    value={this.state.rarity}
+                  >
+                    <option key="0" value="">-- Please choose a rarity --</option>
+                    {this.state.rarities.map((rarity) => (
+                      <option key={rarity.id} value={rarity.param}>
+                        {rarity.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+              <div class="filter__item">
+              <input
                 name="title"
                 id="title"
                 onChange={this.handleInputChange}
                 value={this.state.title}
-                label="Title"
+                placeholder="Title"
               />
-              <br />
-              <br />
-              <TextField
+              </div>
+              <div class="filter__item">
+              <input
                 name="emphasis"
                 id="emphasis"
                 onChange={this.handleInputChange}
                 value={this.state.emphasis}
-                label="Emphasis"
+                placeholder="Emphasis"
               />
-
-              <br />
-              <br />
+              </div>
+              <div class="filter__item">
               <input
-                type="text"
-                onChange={this.handleInputChange}
                 name="limit"
                 id="limit"
+                onChange={this.handleInputChange}
                 value={this.state.limit}
+                placeholder="Limit"
               />
-              <label for="limit">Limit</label>
-              <br />
-              <br />
-
-              <input
+              </div>
+              <div class="filter__item">
+                <FormControlLabel
+                  control={<Checkbox onChange={this.handleCheckboxChange} />}
+                  label="Show prices on graphic"
+                />
+              {/* <input
                 type="checkbox"
                 checked={this.state.prices}
                 onChange={this.handleCheckboxChange}
                 name="prices"
                 id="prices"
               />
-              <label for="prices">Prices</label>
-              <br />
-              <br />
-
+              <label for="prices">Show prices on graphic</label> */}
+              </div>
               <Button onClick={this.generateGraphic} variant="contained">
                 Generate Graphic
               </Button>
