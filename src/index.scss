@@ -106,6 +106,16 @@ h1 {
 
   &__item {
     margin-bottom: 1rem;
+    position: relative;
+    &.checkbox{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+      & .MuiFormControlLabel-root{
+        margin-left: 3rem;
+      }
+    }
   }
 
   & .MuiPaper-root {
@@ -658,4 +668,11 @@ h1 {
   transform-origin: center;
   bottom: 50%;
   position: absolute;
+}
+
+label{
+  position: absolute;
+  top: -9px;
+  left: 10px;
+  z-index: 1;
 }

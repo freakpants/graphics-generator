@@ -296,6 +296,7 @@ class App extends Component {
                   <option value="totw">TOTW</option>
                   <option value="uefa">UEFA</option>
                 </select>
+                <label for="background">Background</label>
               </div>
               <div class="filter__item">
                 {this.state.rarities.length > 0 && (
@@ -305,14 +306,16 @@ class App extends Component {
                     name="rarity"
                     value={this.state.rarity}
                   >
-                    <option key="0" value="">-- Please choose a rarity --</option>
+                    <option key="0" value="">-- Please choose a card type --</option>
                     {this.state.rarities.map((rarity) => (
                       <option key={rarity.id} value={rarity.param}>
                         {rarity.name}
                       </option>
                     ))}
                   </select>
+                  
                 )}
+                <label for="rarity">Card Type</label>
               </div>
               <div class="filter__item">
               <input
@@ -322,6 +325,7 @@ class App extends Component {
                 value={this.state.title}
                 placeholder="Title"
               />
+              <label for="title">Title</label>
               </div>
               <div class="filter__item">
               <input
@@ -331,7 +335,9 @@ class App extends Component {
                 value={this.state.emphasis}
                 placeholder="Emphasis"
               />
+              <label for="emphasis">Emphasis</label>
               </div>
+
               <div class="filter__item">
               <input
                 name="limit"
@@ -340,7 +346,9 @@ class App extends Component {
                 value={this.state.limit}
                 placeholder="Limit"
               />
+              <label for="limit">Limit</label>
               </div>
+
               <div className="filter__item">
               <input
                 name="min_rating"
@@ -349,6 +357,7 @@ class App extends Component {
                 value={this.state.min_rating}
                 placeholder="Min Rating"
               />
+              <label for="min_rating">Min Rating</label>
               </div>
               <div className="filter__item">
                 
@@ -359,9 +368,10 @@ class App extends Component {
                 value={this.state.max_rating}
                 placeholder="Max Rating"
               />
+              <label for="max_rating">Max Rating</label>
               </div>
 
-              <div class="filter__item">
+              <div class="filter__item checkbox">
                 <FormControlLabel
                   control={<Checkbox checked={this.state.prices}
                   name="prices"
