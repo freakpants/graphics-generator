@@ -21,9 +21,6 @@
   font-style: normal;
 }
 
-
-
-
 // Variables
 $dark-black: #1E242A;
 $light-gray: #292f35;
@@ -688,4 +685,8 @@ label::before{
   width: 100%;
   height: 100%;
   border:1px solid $lighter-gray;
+}
+
+#rarity{
+  height: 12rem;
 }

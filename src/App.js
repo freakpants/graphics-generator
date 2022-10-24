@@ -16,7 +16,7 @@ import React, { Component } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Twitter from "./assets/twitter.svg";
 
-import { Accordion, Button, FormGroup, TextField, AccordionSummary, AccordionDetails, Typography, FormControlLabel, Checkbox } from "@mui/material";
+import { Accordion, Button, FormGroup, AccordionSummary, AccordionDetails, Typography, FormControlLabel, Checkbox } from "@mui/material";
 import Logo from "./assets/logopc.png";
 import Loader from "react-loaders";
 import axios from "axios";
@@ -27,16 +27,16 @@ class App extends Component {
     this.state = {
       image: "",
       background: "heroes",
-      title: "FUT Heroes MAX 87",
-      emphasis: "Sorted by price",
+      title: "Moments, Flashback",
+      emphasis: "Foundations and Storyline",
       rarities: [],
-      rarity: "heroes",
-      limit: 48,
-      prices: true,
+      rarity: ["moments","flashback","foundations","storyline"],
+      limit: 36,
+      prices: false,
       optionsExpanded: false,
       min_rating: 0,
-      max_rating: 87,
-      orderby: "console_price",
+      max_rating: 99,
+      orderby: "rating",
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -183,7 +183,11 @@ class App extends Component {
   }
 
   handleInputChange(event) {
-    const { name, value } = event.target;
+    let { name, value, selectedOptions } = event.target;
+    // check if value is an array
+    if(selectedOptions !== undefined && selectedOptions.length > 0) {
+      value = Array.from(selectedOptions, (option) => option.value);
+    }
     this.setState({
       [name]: value,
     });
@@ -307,8 +311,8 @@ class App extends Component {
                     onChange={this.handleInputChange}
                     name="rarity"
                     value={this.state.rarity}
+                    multiple={true}
                   >
-                    <option key="0" value="">-- Please choose a card type --</option>
                     {this.state.rarities.map((rarity) => (
                       <option key={rarity.id} value={rarity.param}>
                         {rarity.name}
