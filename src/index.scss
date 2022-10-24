@@ -76,6 +76,10 @@ h1 {
       text-transform: uppercase;
       margin-right: 1rem;
 
+      &:nth-last-child(1){
+        margin-right: 0;
+      }
+
       &:hover {
         border-bottom: 2px solid $orange;
         cursor: pointer;
@@ -97,7 +101,7 @@ h1 {
   max-width: 35rem;
   border-radius: .5rem;
   margin: 1rem auto;
-  border: 1px solid $beige;
+  border: 1px dashed $beige;
 
   &__item {
     margin-bottom: 1rem;
@@ -131,22 +135,21 @@ h1 {
     align-items: center;
   }
 
-
-  & input, & label {
-    background-color: $light-gray;
-
-    color: $lighter-gray;
+  & input, & select{
     font-family: $base-font-family;
     font-size: 1.2rem;
-  }
-
-  & input {
-    padding: 1rem;
+    background-color: $light-gray;
+    padding: 0 1rem;
     min-width: 25rem;
     font-weight: normal;
     border: 1px solid $lighter-gray;
     border-radius: .5rem;
     color: $white;
+    -ms-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box; 
+    box-sizing:border-box;
+    height: 50px;
 
     @media only screen and (max-width: 768px) {
         width: 80%;
