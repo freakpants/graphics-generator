@@ -34,6 +34,8 @@ class App extends Component {
       limit: "",
       prices: false,
       optionsExpanded: false,
+      min_rating: 0,
+      max_rating: 99,
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -114,6 +116,8 @@ class App extends Component {
       rarity: this.state.rarity,
       limit: this.state.limit,
       prices: this.state.prices ? "1" : "",
+      min_rating: this.state.min_rating,
+      max_rating: this.state.max_rating,
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
@@ -337,19 +341,34 @@ class App extends Component {
                 placeholder="Limit"
               />
               </div>
+              <div className="filter__item">
+              <input
+                name="min_rating"
+                id="min_rating"
+                onChange={this.handleInputChange}
+                value={this.state.min_rating}
+                placeholder="Min Rating"
+              />
+              </div>
+              <div className="filter__item">
+                
+              <input
+                name="max_rating"
+                id="max_rating"
+                onChange={this.handleInputChange}
+                value={this.state.max_rating}
+                placeholder="Max Rating"
+              />
+              </div>
+
               <div class="filter__item">
                 <FormControlLabel
-                  control={<Checkbox onChange={this.handleCheckboxChange} />}
+                  control={<Checkbox checked={this.state.prices}
+                  name="prices"
+                  id="prices"
+                  onChange={this.handleCheckboxChange} />}
                   label="Show prices on graphic"
                 />
-              {/* <input
-                type="checkbox"
-                checked={this.state.prices}
-                onChange={this.handleCheckboxChange}
-                name="prices"
-                id="prices"
-              />
-              <label for="prices">Show prices on graphic</label> */}
               </div>
               <Button onClick={this.generateGraphic} variant="contained">
                 Generate Graphic
