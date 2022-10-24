@@ -26,16 +26,17 @@ class App extends Component {
     super(props);
     this.state = {
       image: "",
-      background: "0",
-      title: "",
-      emphasis: "",
+      background: "heroes",
+      title: "FUT Heroes MAX 87",
+      emphasis: "Sorted by price",
       rarities: [],
-      rarity: "",
-      limit: "",
-      prices: false,
+      rarity: "heroes",
+      limit: 48,
+      prices: true,
       optionsExpanded: false,
       min_rating: 0,
-      max_rating: 99,
+      max_rating: 87,
+      orderby: "console_price",
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -118,6 +119,7 @@ class App extends Component {
       prices: this.state.prices ? "1" : "",
       min_rating: this.state.min_rating,
       max_rating: this.state.max_rating,
+      orderby: this.state.orderby,
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
@@ -318,6 +320,18 @@ class App extends Component {
                 <label for="rarity">Card Type</label>
               </div>
               <div class="filter__item">
+                <select
+                  id="orderby"
+                  name="orderby"
+                  onChange={this.handleInputChange}
+                  value={this.state.orderby}
+                >
+                  <option value="rating">Rating</option>
+                  <option value="console_price">Price on Consoles</option>
+              </select>
+              <label for="orderby">Order by</label>
+              </div>
+              <div class="filter__item">
               <input
                 name="title"
                 id="title"
@@ -351,8 +365,11 @@ class App extends Component {
 
               <div className="filter__item">
               <input
+                type="number"
                 name="min_rating"
                 id="min_rating"
+                min="0"
+                max="99"
                 onChange={this.handleInputChange}
                 value={this.state.min_rating}
                 placeholder="Min Rating"
@@ -362,8 +379,11 @@ class App extends Component {
               <div className="filter__item">
                 
               <input
+              type="number"
                 name="max_rating"
                 id="max_rating"
+                min="0"
+                max="99"
                 onChange={this.handleInputChange}
                 value={this.state.max_rating}
                 placeholder="Max Rating"
