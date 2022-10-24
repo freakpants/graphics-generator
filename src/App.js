@@ -26,12 +26,13 @@ class App extends Component {
     super(props);
     this.state = {
       image: "",
-      background: "heroes",
-      title: "Moments, Flashback",
-      emphasis: "Foundations and Storyline",
+      background: "rulebreakers",
+      title: "Objective CARDS",
+      emphasis: "SO FAR",
       rarities: [],
-      rarity: ["moments","flashback","foundations","storyline"],
-      limit: 36,
+      rarity: ["objective"],
+      limit: 38,
+      scale: 0.9,
       prices: false,
       optionsExpanded: false,
       min_rating: 0,
@@ -120,6 +121,7 @@ class App extends Component {
       min_rating: this.state.min_rating,
       max_rating: this.state.max_rating,
       orderby: this.state.orderby,
+      scale: this.state.scale,
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
@@ -318,6 +320,13 @@ class App extends Component {
                         {rarity.name}
                       </option>
                     ))}
+                    <option key={-1} value="sbc">
+                      SBC
+                    </option>
+                    <option key={-2} value="objective">
+                      Objective
+                    </option>
+
                   </select>
                   
                 )}
@@ -365,6 +374,16 @@ class App extends Component {
                 placeholder="Limit"
               />
               <label for="limit">Limit</label>
+              </div>
+              <div class="filter__item">
+              <input
+                name="scale"
+                id="scale"
+                onChange={this.handleInputChange}
+                value={this.state.scale}
+                placeholder="Scale"
+              />
+              <label for="scale">Scale</label>
               </div>
 
               <div className="filter__item">
