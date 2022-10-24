@@ -102,6 +102,7 @@ h1 {
   border-radius: .5rem;
   margin: 1rem auto;
   border: 1px dashed $beige;
+  text-align: center;
 
   &__item {
     margin-bottom: 1rem;
@@ -120,7 +121,7 @@ h1 {
   }
 
   & .MuiTypography-body1{
-    margin: 0;
+    margin: 0 auto;
     font-family: 'UltimateTeamCondensed';
     font-weight: 400;
     font-size: 1.25rem;
