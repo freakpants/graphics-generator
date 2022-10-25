@@ -16,7 +16,7 @@ import React, { Component } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Twitter from "./assets/twitter.svg";
 
-import { Accordion, Button, FormGroup, AccordionSummary, AccordionDetails, Typography, FormControlLabel, Checkbox } from "@mui/material";
+import { Accordion, Button, FormGroup, AccordionSummary, AccordionDetails, Typography, FormControlLabel, Checkbox, touchRippleClasses } from "@mui/material";
 import Logo from "./assets/logopc.png";
 import Loader from "react-loaders";
 import axios from "axios";
@@ -26,19 +26,19 @@ class App extends Component {
     super(props);
     this.state = {
       image: "",
-      background: "rulebreakers",
-      title: "Objective CARDS",
-      emphasis: "SO FAR",
+      background: "gisalegend",
+      title: "HEROES MAX 87",
+      emphasis: "",
       rarities: [],
-      rarity: ["objective"],
-      limit: 38,
+      rarity: ["heroes"],
+      limit: 48,
       scale: 0.9,
-      prices: false,
+      prices: true,
       optionsExpanded: false,
       min_rating: 0,
-      max_rating: 99,
-      orderby: "rating",
-      counter: false,
+      max_rating: 87,
+      orderby: "console_price",
+      counter: true,
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -217,6 +217,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.user);
     const theme = createTheme({
       typography: {
         fontFamily: "Matroska",
@@ -298,6 +299,10 @@ class App extends Component {
                   value={this.state.background}
                 >
                   <option key="0" value="0">-- Please choose a background --</option>
+                  {this.state.user !== undefined && (this.state.user.email === "freakpants@gmail.com" || this.state.user.email === "gisalegendyt@gmail.com") && (
+                    <option key="-1" value="gisalegend">GISALEGEND</option>
+                  )
+                  }
                   <option value="generic">Generic Fifa 23</option>
                   <option value="heroes">Heroes</option>
                   <option value="icon">Icon</option>
