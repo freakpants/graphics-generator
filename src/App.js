@@ -38,6 +38,7 @@ class App extends Component {
       min_rating: 0,
       max_rating: 99,
       orderby: "rating",
+      counter: false,
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -122,6 +123,7 @@ class App extends Component {
       max_rating: this.state.max_rating,
       orderby: this.state.orderby,
       scale: this.state.scale,
+      counter: this.state.counter,
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
@@ -423,6 +425,16 @@ class App extends Component {
                   label="Show prices on graphic"
                 />
               </div>
+              <div class="filter__item checkbox">
+                <FormControlLabel
+                  control={<Checkbox checked={this.state.counter} 
+                  name="counter"
+                  id="counter"
+                  onChange={this.handleCheckboxChange} />}
+                  label="Show counter on graphic"
+                />
+              </div>
+
               <Button onClick={this.generateGraphic} variant="contained">
                 Generate Graphic
               </Button>

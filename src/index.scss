@@ -108,10 +108,8 @@ h1 {
       width: 100%;
       display: flex;
       justify-content: center;
-      margin-top: 1rem;
-      margin-bottom: 3rem;
       & .MuiFormControlLabel-root{
-        margin-left: 9rem;
+        margin-left: 1rem;
       }
     }
   }
@@ -668,7 +666,7 @@ h1 {
   position: absolute;
 }
 
-label{
+label:not(.MuiFormControlLabel-root){
   position: absolute;
   top: -10px;
   left: 10px;
@@ -677,7 +675,7 @@ label{
   padding: 0px 5px;
 }
 
-label::before{
+label:not(.MuiFormControlLabel-root)::before{
   content: '';
   position: absolute;
   top: 0;
