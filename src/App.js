@@ -39,6 +39,7 @@ class App extends Component {
       max_rating: 87,
       orderby: "console_price",
       counter: true,
+      packable: true,
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -124,6 +125,7 @@ class App extends Component {
       orderby: this.state.orderby,
       scale: this.state.scale,
       counter: this.state.counter,
+      packable: this.state.packable,
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
@@ -437,6 +439,16 @@ class App extends Component {
                   id="counter"
                   onChange={this.handleCheckboxChange} />}
                   label="Show counter on graphic"
+                />
+              </div>
+              <div class="filter__item checkbox">
+                <FormControlLabel
+                  control={<Checkbox checked={this.state.packable}
+                  name="packable"
+                  id="packable"
+                  onChange={this.handleCheckboxChange} />}
+                  label="Exclude SBC's/Objectives"
+
                 />
               </div>
 
