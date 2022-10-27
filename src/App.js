@@ -26,26 +26,22 @@ class App extends Component {
     super(props);
     this.state = {
       image: "",
-      background: "gisalegend",
-      title: "Party Bag",
+      background: "generic",
+      title: "",
       emphasis: "",
       rarities: [],
-      rarity: [
-        "otw",
-        "rulebreakers",
-        "uclrttk",
-        "ueclrttk",
-        "uelrttk"
-      ],
-      limit: 200,
-      scale: 0.6,
+      rarity: "",
+      limit: 23,
+      scale: 1,
       prices: true,
       optionsExpanded: false,
       min_rating: 0,
       max_rating: 99,
       orderby: "console_price",
-      counter: true,
+      counter: false,
       packable: true,
+      promo: "",
+      insta: false,
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -55,6 +51,7 @@ class App extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleOptionExpansion = this.handleOptionExpansion.bind(this);
+    this.handleSingleSelect = this.handleSingleSelect.bind(this);
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -132,6 +129,8 @@ class App extends Component {
       scale: this.state.scale,
       counter: this.state.counter,
       packable: this.state.packable,
+      promo: this.state.promo,
+      insta: this.state.insta,
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
@@ -205,10 +204,22 @@ class App extends Component {
     });
   }
 
+  handleSingleSelect(event){
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
   handleCheckboxChange(event) {
     const { name } = event.target;
     this.setState((prevState) => {
       let oldState = prevState[name];
+      if(name === "insta" && oldState === false) {
+        this.setState({
+          limit: 15,
+          scale: 0.5
+        });
+      }
       return {
         [name]: !oldState,
       };
@@ -348,6 +359,20 @@ class App extends Component {
                 <label for="rarity">Card Type</label>
               </div>
               <div class="filter__item">
+                <select 
+                  id="promo"
+                  onChange={this.handleSingleSelect}
+                  name="promo"
+                  value={this.state.promo}
+                  multiple={false}
+                >
+                  <option key="0" value="0">-- Please choose a promo --</option>
+                  <option key="1" value="totw15">TOTW 1 - 5</option>
+                  <option value="totw6">TOTW 6</option>
+                </select>
+                <label for="promo">Promo</label>
+              </div>
+              <div class="filter__item">
                 <select
                   id="orderby"
                   name="orderby"
@@ -427,6 +452,15 @@ class App extends Component {
                 placeholder="Max Rating"
               />
               <label for="max_rating">Max Rating</label>
+              </div>
+              <div class="filter__item checkbox">
+                <FormControlLabel
+                  control={<Checkbox checked={this.state.insta}
+                  name="insta"
+                  id="prices"
+                  onChange={this.handleCheckboxChange} />}
+                  label="Instagram Format"
+                />
               </div>
 
               <div class="filter__item checkbox">
