@@ -26,7 +26,7 @@ class App extends Component {
     super(props);
     this.state = {
       image: "",
-      background: "generic",
+      background: "oop",
       title: "",
       emphasis: "",
       rarities: [],
@@ -329,6 +329,7 @@ class App extends Component {
                   <option value="rulebreakers">Rulebreakers</option>
                   <option value="totw">TOTW</option>
                   <option value="uefa">UEFA</option>
+                  <option value="oop">Out of Packs</option>
                 </select>
                 <label for="background">Background</label>
               </div>
