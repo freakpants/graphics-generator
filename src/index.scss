@@ -93,24 +93,52 @@ h1 {
 
 .filter {
   display: flex;
-  justify-content: center;
-  flex-direction: column;
-  max-width: 35rem;
+  // justify-content: center;
+  // flex-direction: column;
   border-radius: .5rem;
   margin: 1rem auto;
   border: 1px dashed $beige;
   text-align: center;
+  width: 85%;
+
+  @media only screen and (max-width: 768px) {
+      justify-content: center;
+      flex-direction: column;
+      width: 99%;
+  }
+
+  &__checkboxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin: 2rem 0;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
 
   &__item {
     margin-bottom: 1rem;
     position: relative;
+
     &.checkbox{
-      width: 100%;
       display: flex;
       justify-content: center;
+      margin-bottom: .1rem;
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+      }
+
       & .MuiFormControlLabel-root{
         margin-left: 1rem;
       }
+    }
+
+    @media only screen and (max-width: 768px) {
+        width: 100%;
     }
   }
 
@@ -135,11 +163,21 @@ h1 {
     text-transform: uppercase;
   }
 
+  & .MuiPaper-root {
+    width: 100%;
+  }
+
   & .MuiFormGroup-root {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;    
+      align-items: center;
+    }
   }
 
   & input, & select{
@@ -159,7 +197,7 @@ h1 {
     height: 50px;
 
     @media only screen and (max-width: 768px) {
-        width: 80%;
+        width: 100%;
         min-width: 0;
     }
   }

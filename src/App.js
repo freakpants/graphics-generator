@@ -453,50 +453,52 @@ class App extends Component {
               />
               <label for="max_rating">Max Rating</label>
               </div>
-              <div class="filter__item checkbox">
-                <FormControlLabel
-                  control={<Checkbox checked={this.state.insta}
-                  name="insta"
-                  id="prices"
-                  onChange={this.handleCheckboxChange} />}
-                  label="Instagram Format"
-                />
-              </div>
+              <div class="filter__checkboxes">
+                <div class="filter__item checkbox">
+                  <FormControlLabel
+                    control={<Checkbox checked={this.state.insta}
+                    name="insta"
+                    id="prices"
+                    onChange={this.handleCheckboxChange} />}
+                    label="Instagram Format"
+                  />
+                </div>
 
-              <div class="filter__item checkbox">
-                <FormControlLabel
-                  control={<Checkbox checked={this.state.prices}
-                  name="prices"
-                  id="prices"
-                  onChange={this.handleCheckboxChange} />}
-                  label="Show prices on graphic"
-                />
-              </div>
-              <div class="filter__item checkbox">
-                <FormControlLabel
-                  control={<Checkbox checked={this.state.counter} 
-                  name="counter"
-                  id="counter"
-                  onChange={this.handleCheckboxChange} />}
-                  label="Show counter on graphic"
-                />
-              </div>
-              <div class="filter__item checkbox">
-                <FormControlLabel
-                  control={<Checkbox checked={this.state.packable}
-                  name="packable"
-                  id="packable"
-                  onChange={this.handleCheckboxChange} />}
-                  label="Exclude SBC's/Objectives"
+                <div class="filter__item checkbox">
+                  <FormControlLabel
+                    control={<Checkbox checked={this.state.prices}
+                    name="prices"
+                    id="prices"
+                    onChange={this.handleCheckboxChange} />}
+                    label="Show prices on graphic"
+                  />
+                </div>
+                <div class="filter__item checkbox">
+                  <FormControlLabel
+                    control={<Checkbox checked={this.state.counter} 
+                    name="counter"
+                    id="counter"
+                    onChange={this.handleCheckboxChange} />}
+                    label="Show counter on graphic"
+                  />
+                </div>
+                <div class="filter__item checkbox">
+                  <FormControlLabel
+                    control={<Checkbox checked={this.state.packable}
+                    name="packable"
+                    id="packable"
+                    onChange={this.handleCheckboxChange} />}
+                    label="Exclude SBC's/Objectives"
 
-                />
+                  />
+                </div>
               </div>
 
               <Button onClick={this.generateGraphic} variant="contained">
                 Generate Graphic
               </Button>
             </FormGroup>
-              </AccordionDetails>
+            </AccordionDetails>
 
 
             </Accordion>
