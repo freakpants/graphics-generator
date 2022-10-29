@@ -16,8 +16,9 @@ import React, { Component } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Twitter from "./assets/twitter.svg";
 
-import { Accordion, Button, FormGroup, AccordionSummary, AccordionDetails, Typography, FormControlLabel, Checkbox, touchRippleClasses } from "@mui/material";
+import { Accordion, Button, FormGroup, AccordionSummary, AccordionDetails, Typography, FormControlLabel, Checkbox} from "@mui/material";
 import Logo from "./assets/logopc.png";
+import GoogleLogin from "./assets/btn_google_signin_dark_normal_web.png";
 import Loader from "react-loaders";
 import axios from "axios";
 
@@ -259,9 +260,7 @@ class App extends Component {
           <img
             alt="Google Login"
             onClick={this.triggerGoogleLogin}
-            src={
-              "https://developers.google.com/static/identity/images/btn_google_signin_dark_normal_web.png"
-            }
+            src={GoogleLogin}
           />
         )}
         {this.state.user && (
