@@ -118,7 +118,7 @@ class App extends Component {
       .get(process.env.REACT_APP_AJAXSERVER + "getGraphicCardCount.php?rarity=" + this.state.rarity + (this.state.packable ? "&packable=1" : "" ))
       .then((response) => {
         this.setState({ possibleCardCount: response.data });
-        if(this.state.limit > response.data) {
+        if(response.data > 0 && this.state.limit > response.data) {
           this.setState({ limit: response.data });
         }
       });
