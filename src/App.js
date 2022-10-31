@@ -15,6 +15,7 @@ import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import React, { Component } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Twitter from "./assets/twitter.svg";
+import Select from 'react-select';
 
 import {
   Accordion,
@@ -320,7 +321,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.user);
     const theme = createTheme({
       typography: {
         fontFamily: "Matroska",
@@ -334,8 +334,76 @@ class App extends Component {
         secondary: {
           main: "#edf2ff",
         },
+        lightgray: {
+          main: "#292f35",
+        },
+        lightergray: {
+          main: "#505a64",
+        }, 
       },
     });
+
+    let rarityOptions = [];
+    this.state.rarities.forEach((rarity) => {
+      rarityOptions.push({
+        value: rarity.param,
+        label: rarity.name,
+      });
+    });
+
+    const customStyles = {
+      control: (provided, state) => {
+        // none of react-select's styles are passed to <Control />
+        const background = theme.palette.lightgray.main;
+        const minWidth = 200;
+        const borderColor = theme.palette.lightergray.main;
+        const height = 50;
+        const paddingTop = 0;
+        return { ...provided, background, minWidth, borderColor, height, paddingTop };
+      },
+      menu: (provided) => {
+        // none of react-select's styles are passed to <Control />
+        const zIndex = 3;
+        const background = theme.palette.lightgray.main;
+        const width = 200;
+        const right = 0;
+        return { ...provided, background, zIndex, width, right};
+      },
+      multiValue: (provided) => {
+        const background = theme.palette.lightergray.main;
+        const height = 27;
+        const marginTop = 12;
+        return { ...provided, background, height, marginTop};
+      },
+      multiValueLabel: (provided) => {
+        const color = "white";
+        const fontSize = 16;
+        return { ...provided, color, fontSize};
+      },
+      menuList: (provided) => {
+        return { ...provided};
+      },
+      indicatorSeparator: (provided) => {
+        const height = 30;
+        return { ...provided, height};
+      },
+      option: (provided, state) => {
+        const backgroundColor = state.isFocused ? theme.palette.primary.main : "transparent";
+        return { ...provided, backgroundColor };
+      },
+      valueContainer: (provided) => {
+        const alignItems = "flex-start";
+        return { ...provided, alignItems};
+      },
+      placeholder: (provided) => {
+        const position = "absolute";
+        const top = 15;
+        const fontSize = "1.2rem";
+        return { ...provided, position, top, fontSize};
+      },
+
+      
+    };
 
     return (
       <ThemeProvider theme={theme}>
@@ -423,30 +491,6 @@ class App extends Component {
                   <label for="background">Background</label>
                 </div>
                 <div class="filter__item">
-                  {this.state.rarities.length > 0 && (
-                    <select
-                      id="rarity"
-                      onChange={this.handleInputChange}
-                      name="rarity"
-                      value={this.state.rarity}
-                      multiple={true}
-                    >
-                      {this.state.rarities.map((rarity) => (
-                        <option key={rarity.id} value={rarity.param}>
-                          {rarity.name}
-                        </option>
-                      ))}
-                      <option key={-1} value="sbc">
-                        SBC
-                      </option>
-                      <option key={-2} value="objective">
-                        Objective
-                      </option>
-                    </select>
-                  )}
-                  <label for="rarity">Card Type</label>
-                </div>
-                <div class="filter__item">
                   <select
                     id="promo"
                     onChange={this.handleSingleSelect}
@@ -507,10 +551,11 @@ class App extends Component {
                     value={this.state.limit}
                     placeholder="Limit"
                   />
-                  <label for="limit">Max. Amount of Cards</label>
+                  <label for="limit">Amount of Cards</label>
                 </div>
                 <div class="filter__item">
                   <input
+                    type="number"
                     name="scale"
                     id="scale"
                     value={this.state.scale}
@@ -545,6 +590,12 @@ class App extends Component {
                     placeholder="Max Rating"
                   />
                   <label for="max_rating">Max Rating</label>
+                </div>
+                <div class="filter__item">
+                  {this.state.rarities.length > 0 && (
+                    <Select options={rarityOptions} isMulti={true} styles={customStyles} />
+                  )}
+                  <label for="rarity">Card Types</label>
                 </div>
                 <div class="filter__checkboxes">
                   <div class="filter__item checkbox">
