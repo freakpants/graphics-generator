@@ -136,9 +136,11 @@ class App extends Component {
       .then((response) => {
         this.setState({ possibleCardCount: response.data });
         if (response.data > 0 && this.state.limit > response.data) {
-          this.setState({ limit: response.data });
+          this.setState({ limit: response.data }, () => {
+            this.calculateScale();
+          });
         }
-        this.calculateScale();
+        
       });
   }
 
@@ -182,8 +184,24 @@ class App extends Component {
       this.setState({ scale: 0.86 });
     } else if (value >= 28) {
       this.setState({ scale: 0.95 });
-    } else {
+    } else if (value >= 19) {
       this.setState({ scale: 1 });
+    } else if (value >= 17) {
+      this.setState({ scale: 1.06 });
+    } else if (value >= 15) {
+      this.setState({ scale: 1.16 });
+    } else if (value >= 13) {
+      this.setState({ scale: 1.28 });
+    } else if (value >= 6) {
+      this.setState({ scale: 1.42 });
+    } else if (value >= 5) {
+      this.setState({ scale: 1.58 });
+    } else if (value >= 4) {
+      this.setState({ scale: 1.76 });
+    } else if (value >= 3) {
+      this.setState({ scale: 1.97 });
+    } else {
+      this.setState({ scale: 2.2 });
     }
   }
 
