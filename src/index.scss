@@ -37,6 +37,11 @@ $primary-color: $orange;
 @import 'loaders.css/src/animations/line-scale.scss';
 
 
+input:disabled{
+  opacity: 0.5;
+  background-color: rgba(0,0,0,0.15)!important;
+}
+
 body {
   background-color: $dark-black;
   background-image: url('assets/bg.jpg');

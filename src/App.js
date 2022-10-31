@@ -200,6 +200,45 @@ class App extends Component {
     if(selectedOptions !== undefined && selectedOptions.length > 0) {
       value = Array.from(selectedOptions, (option) => option.value);
     }
+
+    // if we are dealing with limit, also set scale accordingly
+    if(name === "limit") {
+      if(value >= 121){
+        this.setState({ scale: 0.45 });
+      } else if( value >= 115) {
+        this.setState({ scale: 0.47});
+      } else if( value >= 109) {
+        this.setState({ scale: 0.5});
+      } else if( value >= 91) {
+        this.setState({ scale: 0.51});
+      } else if (value >= 86) {
+        this.setState({ scale: 0.53 });
+      } else if (value >= 81) {
+        this.setState({ scale: 0.56 });
+      } else if (value >= 76) {
+        this.setState({ scale: 0.59 });
+      } else if (value >= 61) {
+        this.setState({ scale: 0.6 });
+      } else if (value >= 57) {
+        this.setState({ scale: 0.63 });
+      } else if (value >= 53) {
+        this.setState({ scale: 0.68 });
+      } else if (value >= 49) {
+        this.setState({ scale: 0.73 });
+      } else if (value >= 37) {
+        this.setState({ scale: 0.75 });
+      } else if (value >= 34) {
+        this.setState({ scale: 0.79 });
+      } else if (value >= 31) {
+        this.setState({ scale: 0.86 });
+      } else if (value >= 28) {
+        this.setState({ scale: 0.95 });
+      } else {
+        this.setState({ scale: 1 });
+      }
+
+    }
+
     this.setState({
       [name]: value,
     });
@@ -407,21 +446,23 @@ class App extends Component {
 
               <div class="filter__item">
               <input
+                type="number"
+                max="126"
                 name="limit"
                 id="limit"
                 onChange={this.handleInputChange}
                 value={this.state.limit}
                 placeholder="Limit"
               />
-              <label for="limit">Limit</label>
+              <label for="limit">Max. Amount of Cards</label>
               </div>
               <div class="filter__item">
               <input
                 name="scale"
                 id="scale"
-                onChange={this.handleInputChange}
                 value={this.state.scale}
                 placeholder="Scale"
+                disabled={true}
               />
               <label for="scale">Scale</label>
               </div>
