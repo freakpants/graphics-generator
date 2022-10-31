@@ -15,7 +15,7 @@ import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import React, { Component } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Twitter from "./assets/twitter.svg";
-import Select from 'react-select';
+import Select from "react-select";
 
 import {
   Accordion,
@@ -66,6 +66,7 @@ class App extends Component {
     this.handleSingleSelect = this.handleSingleSelect.bind(this);
     this.calculatePossibleCards = this.calculatePossibleCards.bind(this);
     this.calculateScale = this.calculateScale.bind(this);
+    this.handleReactSelect = this.handleReactSelect.bind(this);
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -114,7 +115,7 @@ class App extends Component {
         // write user object to local storage
         localStorage.setItem("user", JSON.stringify(user));
 
-        this.setState({ user: user });
+        // this.setState({ user: user });
       } else {
         // User is signed out
         localStorage.setItem("user", JSON.stringify(user));
@@ -139,6 +140,11 @@ class App extends Component {
         }
         this.calculateScale();
       });
+  }
+
+  handleReactSelect(event) {
+    const rarityArray = Array.from(event, (option) => option.value);
+    this.setState({ rarity: rarityArray });
   }
 
   calculateScale() {
@@ -185,6 +191,7 @@ class App extends Component {
     // call the firebase function
     const scrape = httpsCallable(this.functions, "scrape");
 
+
     scrape({
       background: this.state.background,
       title: this.state.title,
@@ -227,12 +234,13 @@ class App extends Component {
         // const token = credential.accessToken;
 
         // The signed-in user info.
-        const user = result.user;
+        if (result !== null) {
+          const user = result.user;
+          // write user object to local storage
+          localStorage.setItem("user", JSON.stringify(user));
 
-        // write user object to local storage
-        localStorage.setItem("user", JSON.stringify(user));
-
-        this.setState({ user: user });
+          this.setState({ user: user });
+        }
       })
       .catch((error) => {
         // Handle Errors here.
@@ -339,7 +347,7 @@ class App extends Component {
         },
         lightergray: {
           main: "#505a64",
-        }, 
+        },
       },
     });
 
@@ -359,7 +367,14 @@ class App extends Component {
         const borderColor = theme.palette.lightergray.main;
         const height = 50;
         const paddingTop = 0;
-        return { ...provided, background, minWidth, borderColor, height, paddingTop };
+        return {
+          ...provided,
+          background,
+          minWidth,
+          borderColor,
+          height,
+          paddingTop,
+        };
       },
       menu: (provided) => {
         // none of react-select's styles are passed to <Control />
@@ -367,42 +382,42 @@ class App extends Component {
         const background = theme.palette.lightgray.main;
         const width = 200;
         const right = 0;
-        return { ...provided, background, zIndex, width, right};
+        return { ...provided, background, zIndex, width, right };
       },
       multiValue: (provided) => {
         const background = theme.palette.lightergray.main;
         const height = 27;
         const marginTop = 12;
-        return { ...provided, background, height, marginTop};
+        return { ...provided, background, height, marginTop };
       },
       multiValueLabel: (provided) => {
         const color = "white";
         const fontSize = 16;
-        return { ...provided, color, fontSize};
+        return { ...provided, color, fontSize };
       },
       menuList: (provided) => {
-        return { ...provided};
+        return { ...provided };
       },
       indicatorSeparator: (provided) => {
         const height = 30;
-        return { ...provided, height};
+        return { ...provided, height };
       },
       option: (provided, state) => {
-        const backgroundColor = state.isFocused ? theme.palette.primary.main : "transparent";
+        const backgroundColor = state.isFocused
+          ? theme.palette.primary.main
+          : "transparent";
         return { ...provided, backgroundColor };
       },
       valueContainer: (provided) => {
         const alignItems = "flex-start";
-        return { ...provided, alignItems};
+        return { ...provided, alignItems };
       },
       placeholder: (provided) => {
         const position = "absolute";
         const top = 15;
         const fontSize = "1.2rem";
-        return { ...provided, position, top, fontSize};
+        return { ...provided, position, top, fontSize };
       },
-
-      
     };
 
     return (
@@ -463,7 +478,7 @@ class App extends Component {
             </AccordionSummary>
             <AccordionDetails>
               <FormGroup>
-                <div class="filter__item">
+                <div className="filter__item">
                   <select
                     id="background"
                     onChange={this.change}
@@ -488,9 +503,9 @@ class App extends Component {
                     <option value="uefa">UEFA</option>
                     <option value="oop">Out of Packs</option>
                   </select>
-                  <label for="background">Background</label>
+                  <label htmlFor="background">Background</label>
                 </div>
-                <div class="filter__item">
+                <div className="filter__item">
                   <select
                     id="promo"
                     onChange={this.handleSingleSelect}
@@ -506,9 +521,9 @@ class App extends Component {
                     </option>
                     <option value="totw6">TOTW 6</option>
                   </select>
-                  <label for="promo">Promo</label>
+                  <label htmlFor="promo">Promo</label>
                 </div>
-                <div class="filter__item">
+                <div className="filter__item">
                   <select
                     id="orderby"
                     name="orderby"
@@ -518,9 +533,9 @@ class App extends Component {
                     <option value="rating">Rating</option>
                     <option value="console_price">Price on Consoles</option>
                   </select>
-                  <label for="orderby">Order by</label>
+                  <label htmlFor="orderby">Order by</label>
                 </div>
-                <div class="filter__item">
+                <div className="filter__item">
                   <input
                     name="title"
                     id="title"
@@ -528,9 +543,9 @@ class App extends Component {
                     value={this.state.title}
                     placeholder="Title"
                   />
-                  <label for="title">Title</label>
+                  <label htmlFor="title">Title</label>
                 </div>
-                <div class="filter__item">
+                <div className="filter__item">
                   <input
                     name="emphasis"
                     id="emphasis"
@@ -538,10 +553,10 @@ class App extends Component {
                     value={this.state.emphasis}
                     placeholder="Emphasis"
                   />
-                  <label for="emphasis">Emphasis</label>
+                  <label htmlFor="emphasis">Emphasis</label>
                 </div>
 
-                <div class="filter__item">
+                <div className="filter__item">
                   <input
                     type="number"
                     max="126"
@@ -551,9 +566,9 @@ class App extends Component {
                     value={this.state.limit}
                     placeholder="Limit"
                   />
-                  <label for="limit">Amount of Cards</label>
+                  <label htmlFor="limit">Amount of Cards</label>
                 </div>
-                <div class="filter__item">
+                <div className="filter__item">
                   <input
                     type="number"
                     name="scale"
@@ -562,7 +577,7 @@ class App extends Component {
                     placeholder="Scale"
                     disabled={true}
                   />
-                  <label for="scale">Scale</label>
+                  <label htmlFor="scale">Scale</label>
                 </div>
 
                 <div className="filter__item">
@@ -576,7 +591,7 @@ class App extends Component {
                     value={this.state.min_rating}
                     placeholder="Min Rating"
                   />
-                  <label for="min_rating">Min Rating</label>
+                  <label htmlFor="min_rating">Min Rating</label>
                 </div>
                 <div className="filter__item">
                   <input
@@ -589,16 +604,21 @@ class App extends Component {
                     value={this.state.max_rating}
                     placeholder="Max Rating"
                   />
-                  <label for="max_rating">Max Rating</label>
+                  <label htmlFor="max_rating">Max Rating</label>
                 </div>
-                <div class="filter__item">
+                <div className="filter__item">
                   {this.state.rarities.length > 0 && (
-                    <Select options={rarityOptions} isMulti={true} styles={customStyles} />
+                    <Select
+                      onChange={this.handleReactSelect}
+                      options={rarityOptions}
+                      isMulti={true}
+                      styles={customStyles}
+                    />
                   )}
-                  <label for="rarity">Card Types</label>
+                  <label htmlFor="rarity">Card Types</label>
                 </div>
-                <div class="filter__checkboxes">
-                  <div class="filter__item checkbox">
+                <div className="filter__checkboxes">
+                  <div className="filter__item checkbox">
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -612,7 +632,7 @@ class App extends Component {
                     />
                   </div>
 
-                  <div class="filter__item checkbox">
+                  <div className="filter__item checkbox">
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -625,7 +645,7 @@ class App extends Component {
                       label="Show prices on graphic"
                     />
                   </div>
-                  <div class="filter__item checkbox">
+                  <div className="filter__item checkbox">
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -638,7 +658,7 @@ class App extends Component {
                       label="Show counter on graphic"
                     />
                   </div>
-                  <div class="filter__item checkbox">
+                  <div className="filter__item checkbox">
                     <FormControlLabel
                       control={
                         <Checkbox
