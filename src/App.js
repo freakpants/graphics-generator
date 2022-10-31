@@ -43,6 +43,7 @@ class App extends Component {
       packable: true,
       promo: "",
       insta: false,
+      possibleCardCount: 0,
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -53,6 +54,7 @@ class App extends Component {
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleOptionExpansion = this.handleOptionExpansion.bind(this);
     this.handleSingleSelect = this.handleSingleSelect.bind(this);
+    this.calculatePossibleCards = this.calculatePossibleCards.bind(this);
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -110,6 +112,18 @@ class App extends Component {
       }
     });
   }
+
+  calculatePossibleCards() {
+    axios
+      .get(process.env.REACT_APP_AJAXSERVER + "getGraphicCardCount.php?rarity=" + this.state.rarity + (this.state.packable ? "&packable=1" : "" ))
+      .then((response) => {
+        this.setState({ possibleCardCount: response.data });
+        if(this.state.limit > response.data) {
+          this.setState({ limit: response.data });
+        }
+      });
+  }
+
 
   generateGraphic() {
     this.setState({ image: "loading", optionsExpanded: false });
@@ -241,7 +255,10 @@ class App extends Component {
 
     this.setState({
       [name]: value,
-    });
+    }, () => {this.calculatePossibleCards();});
+
+    
+
   }
 
   handleSingleSelect(event){
@@ -263,7 +280,7 @@ class App extends Component {
       return {
         [name]: !oldState,
       };
-    });
+    }, () => {this.calculatePossibleCards();});
   }
 
   handleOptionExpansion() {
@@ -535,10 +552,13 @@ class App extends Component {
                 </div>
               </div>
 
+              <div>{this.state.possibleCardCount} Cards fulfill the conditions</div>
+
               <Button onClick={this.generateGraphic} variant="contained">
                 Generate Graphic
               </Button>
             </FormGroup>
+
             </AccordionDetails>
 
 
