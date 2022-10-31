@@ -144,7 +144,9 @@ class App extends Component {
 
   handleReactSelect(event) {
     const rarityArray = Array.from(event, (option) => option.value);
-    this.setState({ rarity: rarityArray });
+    this.setState({ rarity: rarityArray }, () => {
+      this.calculatePossibleCards();
+    });
   }
 
   calculateScale() {
@@ -190,7 +192,6 @@ class App extends Component {
 
     // call the firebase function
     const scrape = httpsCallable(this.functions, "scrape");
-
 
     scrape({
       background: this.state.background,
