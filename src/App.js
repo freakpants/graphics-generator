@@ -194,6 +194,9 @@ class App extends Component {
       .then((response) => {
         this.setState({ rarities: response.data });
       });
+
+    // count the cards
+    this.calculatePossibleCards();
   }
 
   triggerTwitterLogin() {
