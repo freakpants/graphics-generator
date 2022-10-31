@@ -16,7 +16,16 @@ import React, { Component } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Twitter from "./assets/twitter.svg";
 
-import { Accordion, Button, FormGroup, AccordionSummary, AccordionDetails, Typography, FormControlLabel, Checkbox} from "@mui/material";
+import {
+  Accordion,
+  Button,
+  FormGroup,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 import Logo from "./assets/logopc.png";
 import GoogleLogin from "./assets/btn_google_signin_dark_normal_web.png";
 import Loader from "react-loaders";
@@ -55,6 +64,7 @@ class App extends Component {
     this.handleOptionExpansion = this.handleOptionExpansion.bind(this);
     this.handleSingleSelect = this.handleSingleSelect.bind(this);
     this.calculatePossibleCards = this.calculatePossibleCards.bind(this);
+    this.calculateScale = this.calculateScale.bind(this);
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -115,15 +125,58 @@ class App extends Component {
 
   calculatePossibleCards() {
     axios
-      .get(process.env.REACT_APP_AJAXSERVER + "getGraphicCardCount.php?rarity=" + this.state.rarity + (this.state.packable ? "&packable=1" : "" ))
+      .get(
+        process.env.REACT_APP_AJAXSERVER +
+          "getGraphicCardCount.php?rarity=" +
+          this.state.rarity +
+          (this.state.packable ? "&packable=1" : "")
+      )
       .then((response) => {
         this.setState({ possibleCardCount: response.data });
-        if(response.data > 0 && this.state.limit > response.data) {
+        if (response.data > 0 && this.state.limit > response.data) {
           this.setState({ limit: response.data });
         }
+        this.calculateScale();
       });
   }
 
+  calculateScale() {
+    // if we are dealing with limit, also set scale accordingly
+    const value = this.state.limit;
+    if (value >= 121) {
+      this.setState({ scale: 0.45 });
+    } else if (value >= 115) {
+      this.setState({ scale: 0.47 });
+    } else if (value >= 109) {
+      this.setState({ scale: 0.5 });
+    } else if (value >= 91) {
+      this.setState({ scale: 0.51 });
+    } else if (value >= 86) {
+      this.setState({ scale: 0.53 });
+    } else if (value >= 81) {
+      this.setState({ scale: 0.56 });
+    } else if (value >= 76) {
+      this.setState({ scale: 0.59 });
+    } else if (value >= 61) {
+      this.setState({ scale: 0.6 });
+    } else if (value >= 57) {
+      this.setState({ scale: 0.63 });
+    } else if (value >= 53) {
+      this.setState({ scale: 0.68 });
+    } else if (value >= 49) {
+      this.setState({ scale: 0.73 });
+    } else if (value >= 37) {
+      this.setState({ scale: 0.75 });
+    } else if (value >= 34) {
+      this.setState({ scale: 0.79 });
+    } else if (value >= 31) {
+      this.setState({ scale: 0.86 });
+    } else if (value >= 28) {
+      this.setState({ scale: 0.95 });
+    } else {
+      this.setState({ scale: 1 });
+    }
+  }
 
   generateGraphic() {
     this.setState({ image: "loading", optionsExpanded: false });
@@ -214,76 +267,47 @@ class App extends Component {
   handleInputChange(event) {
     let { name, value, selectedOptions } = event.target;
     // check if value is an array
-    if(selectedOptions !== undefined && selectedOptions.length > 0) {
+    if (selectedOptions !== undefined && selectedOptions.length > 0) {
       value = Array.from(selectedOptions, (option) => option.value);
     }
 
-    // if we are dealing with limit, also set scale accordingly
-    if(name === "limit") {
-      if(value >= 121){
-        this.setState({ scale: 0.45 });
-      } else if( value >= 115) {
-        this.setState({ scale: 0.47});
-      } else if( value >= 109) {
-        this.setState({ scale: 0.5});
-      } else if( value >= 91) {
-        this.setState({ scale: 0.51});
-      } else if (value >= 86) {
-        this.setState({ scale: 0.53 });
-      } else if (value >= 81) {
-        this.setState({ scale: 0.56 });
-      } else if (value >= 76) {
-        this.setState({ scale: 0.59 });
-      } else if (value >= 61) {
-        this.setState({ scale: 0.6 });
-      } else if (value >= 57) {
-        this.setState({ scale: 0.63 });
-      } else if (value >= 53) {
-        this.setState({ scale: 0.68 });
-      } else if (value >= 49) {
-        this.setState({ scale: 0.73 });
-      } else if (value >= 37) {
-        this.setState({ scale: 0.75 });
-      } else if (value >= 34) {
-        this.setState({ scale: 0.79 });
-      } else if (value >= 31) {
-        this.setState({ scale: 0.86 });
-      } else if (value >= 28) {
-        this.setState({ scale: 0.95 });
-      } else {
-        this.setState({ scale: 1 });
+    this.calculateScale();
+
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        this.calculatePossibleCards();
       }
-
-    }
-
-    this.setState({
-      [name]: value,
-    }, () => {this.calculatePossibleCards();});
-
-    
-
+    );
   }
 
-  handleSingleSelect(event){
+  handleSingleSelect(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
   handleCheckboxChange(event) {
     const { name } = event.target;
-    this.setState((prevState) => {
-      let oldState = prevState[name];
-      if(name === "insta" && oldState === false) {
-        this.setState({
-          limit: 15,
-          scale: 0.5
-        });
+    this.setState(
+      (prevState) => {
+        let oldState = prevState[name];
+        if (name === "insta" && oldState === false) {
+          this.setState({
+            limit: 15,
+            scale: 0.5,
+          });
+        }
+        return {
+          [name]: !oldState,
+        };
+      },
+      () => {
+        this.calculatePossibleCards();
       }
-      return {
-        [name]: !oldState,
-      };
-    }, () => {this.calculatePossibleCards();});
+    );
   }
 
   handleOptionExpansion() {
@@ -305,10 +329,10 @@ class App extends Component {
       },
       palette: {
         primary: {
-          main: '#ff6a00',
+          main: "#ff6a00",
         },
         secondary: {
-          main: '#edf2ff',
+          main: "#edf2ff",
         },
       },
     });
@@ -362,210 +386,232 @@ class App extends Component {
         </div>
 
         <div className={"filter"}>
-            <Accordion expanded={this.state.optionsExpanded} onChange={this.handleOptionExpansion}>
-              <AccordionSummary>
-                <Typography>Please choose your options...</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                
+          <Accordion
+            expanded={this.state.optionsExpanded}
+            onChange={this.handleOptionExpansion}
+          >
+            <AccordionSummary>
+              <Typography>Please choose your options...</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
               <FormGroup>
-              <div class="filter__item">
-                <select
-                  id="background"
-                  onChange={this.change}
-                  value={this.state.background}
-                >
-                  <option key="0" value="0">-- Please choose a background --</option>
-                  {this.state.user !== undefined && (this.state.user.email === "freakpants@gmail.com" || this.state.user.email === "gisalegendyt@gmail.com") && (
-                    <option key="-1" value="gisalegend">GISALEGEND</option>
-                  )
-                  }
-                  <option value="generic">Generic Fifa 23</option>
-                  <option value="heroes">Heroes</option>
-                  <option value="icon">Icon</option>
-                  <option value="otw">OTW</option>
-                  <option value="rulebreakers">Rulebreakers</option>
-                  <option value="totw">TOTW</option>
-                  <option value="uefa">UEFA</option>
-                  <option value="oop">Out of Packs</option>
-                </select>
-                <label for="background">Background</label>
-              </div>
-              <div class="filter__item">
-                {this.state.rarities.length > 0 && (
+                <div class="filter__item">
                   <select
-                    id="rarity"
-                    onChange={this.handleInputChange}
-                    name="rarity"
-                    value={this.state.rarity}
-                    multiple={true}
+                    id="background"
+                    onChange={this.change}
+                    value={this.state.background}
                   >
-                    {this.state.rarities.map((rarity) => (
-                      <option key={rarity.id} value={rarity.param}>
-                        {rarity.name}
-                      </option>
-                    ))}
-                    <option key={-1} value="sbc">
-                      SBC
+                    <option key="0" value="0">
+                      -- Please choose a background --
                     </option>
-                    <option key={-2} value="objective">
-                      Objective
-                    </option>
-
+                    {this.state.user !== undefined &&
+                      (this.state.user.email === "freakpants@gmail.com" ||
+                        this.state.user.email === "gisalegendyt@gmail.com") && (
+                        <option key="-1" value="gisalegend">
+                          GISALEGEND
+                        </option>
+                      )}
+                    <option value="generic">Generic Fifa 23</option>
+                    <option value="heroes">Heroes</option>
+                    <option value="icon">Icon</option>
+                    <option value="otw">OTW</option>
+                    <option value="rulebreakers">Rulebreakers</option>
+                    <option value="totw">TOTW</option>
+                    <option value="uefa">UEFA</option>
+                    <option value="oop">Out of Packs</option>
                   </select>
-                  
-                )}
-                <label for="rarity">Card Type</label>
-              </div>
-              <div class="filter__item">
-                <select 
-                  id="promo"
-                  onChange={this.handleSingleSelect}
-                  name="promo"
-                  value={this.state.promo}
-                  multiple={false}
-                >
-                  <option key="0" value="0">-- Please choose a promo --</option>
-                  <option key="1" value="totw15">TOTW 1 - 5</option>
-                  <option value="totw6">TOTW 6</option>
-                </select>
-                <label for="promo">Promo</label>
-              </div>
-              <div class="filter__item">
-                <select
-                  id="orderby"
-                  name="orderby"
-                  onChange={this.handleInputChange}
-                  value={this.state.orderby}
-                >
-                  <option value="rating">Rating</option>
-                  <option value="console_price">Price on Consoles</option>
-              </select>
-              <label for="orderby">Order by</label>
-              </div>
-              <div class="filter__item">
-              <input
-                name="title"
-                id="title"
-                onChange={this.handleInputChange}
-                value={this.state.title}
-                placeholder="Title"
-              />
-              <label for="title">Title</label>
-              </div>
-              <div class="filter__item">
-              <input
-                name="emphasis"
-                id="emphasis"
-                onChange={this.handleInputChange}
-                value={this.state.emphasis}
-                placeholder="Emphasis"
-              />
-              <label for="emphasis">Emphasis</label>
-              </div>
-
-              <div class="filter__item">
-              <input
-                type="number"
-                max="126"
-                name="limit"
-                id="limit"
-                onChange={this.handleInputChange}
-                value={this.state.limit}
-                placeholder="Limit"
-              />
-              <label for="limit">Max. Amount of Cards</label>
-              </div>
-              <div class="filter__item">
-              <input
-                name="scale"
-                id="scale"
-                value={this.state.scale}
-                placeholder="Scale"
-                disabled={true}
-              />
-              <label for="scale">Scale</label>
-              </div>
-
-              <div className="filter__item">
-              <input
-                type="number"
-                name="min_rating"
-                id="min_rating"
-                min="0"
-                max="99"
-                onChange={this.handleInputChange}
-                value={this.state.min_rating}
-                placeholder="Min Rating"
-              />
-              <label for="min_rating">Min Rating</label>
-              </div>
-              <div className="filter__item">
-                
-              <input
-              type="number"
-                name="max_rating"
-                id="max_rating"
-                min="0"
-                max="99"
-                onChange={this.handleInputChange}
-                value={this.state.max_rating}
-                placeholder="Max Rating"
-              />
-              <label for="max_rating">Max Rating</label>
-              </div>
-              <div class="filter__checkboxes">
-                <div class="filter__item checkbox">
-                  <FormControlLabel
-                    control={<Checkbox checked={this.state.insta}
-                    name="insta"
-                    id="prices"
-                    onChange={this.handleCheckboxChange} />}
-                    label="Instagram Format"
+                  <label for="background">Background</label>
+                </div>
+                <div class="filter__item">
+                  {this.state.rarities.length > 0 && (
+                    <select
+                      id="rarity"
+                      onChange={this.handleInputChange}
+                      name="rarity"
+                      value={this.state.rarity}
+                      multiple={true}
+                    >
+                      {this.state.rarities.map((rarity) => (
+                        <option key={rarity.id} value={rarity.param}>
+                          {rarity.name}
+                        </option>
+                      ))}
+                      <option key={-1} value="sbc">
+                        SBC
+                      </option>
+                      <option key={-2} value="objective">
+                        Objective
+                      </option>
+                    </select>
+                  )}
+                  <label for="rarity">Card Type</label>
+                </div>
+                <div class="filter__item">
+                  <select
+                    id="promo"
+                    onChange={this.handleSingleSelect}
+                    name="promo"
+                    value={this.state.promo}
+                    multiple={false}
+                  >
+                    <option key="0" value="0">
+                      -- Please choose a promo --
+                    </option>
+                    <option key="1" value="totw15">
+                      TOTW 1 - 5
+                    </option>
+                    <option value="totw6">TOTW 6</option>
+                  </select>
+                  <label for="promo">Promo</label>
+                </div>
+                <div class="filter__item">
+                  <select
+                    id="orderby"
+                    name="orderby"
+                    onChange={this.handleInputChange}
+                    value={this.state.orderby}
+                  >
+                    <option value="rating">Rating</option>
+                    <option value="console_price">Price on Consoles</option>
+                  </select>
+                  <label for="orderby">Order by</label>
+                </div>
+                <div class="filter__item">
+                  <input
+                    name="title"
+                    id="title"
+                    onChange={this.handleInputChange}
+                    value={this.state.title}
+                    placeholder="Title"
                   />
+                  <label for="title">Title</label>
+                </div>
+                <div class="filter__item">
+                  <input
+                    name="emphasis"
+                    id="emphasis"
+                    onChange={this.handleInputChange}
+                    value={this.state.emphasis}
+                    placeholder="Emphasis"
+                  />
+                  <label for="emphasis">Emphasis</label>
                 </div>
 
-                <div class="filter__item checkbox">
-                  <FormControlLabel
-                    control={<Checkbox checked={this.state.prices}
-                    name="prices"
-                    id="prices"
-                    onChange={this.handleCheckboxChange} />}
-                    label="Show prices on graphic"
+                <div class="filter__item">
+                  <input
+                    type="number"
+                    max="126"
+                    name="limit"
+                    id="limit"
+                    onChange={this.handleInputChange}
+                    value={this.state.limit}
+                    placeholder="Limit"
                   />
+                  <label for="limit">Max. Amount of Cards</label>
                 </div>
-                <div class="filter__item checkbox">
-                  <FormControlLabel
-                    control={<Checkbox checked={this.state.counter} 
-                    name="counter"
-                    id="counter"
-                    onChange={this.handleCheckboxChange} />}
-                    label="Show counter on graphic"
+                <div class="filter__item">
+                  <input
+                    name="scale"
+                    id="scale"
+                    value={this.state.scale}
+                    placeholder="Scale"
+                    disabled={true}
                   />
+                  <label for="scale">Scale</label>
                 </div>
-                <div class="filter__item checkbox">
-                  <FormControlLabel
-                    control={<Checkbox checked={this.state.packable}
-                    name="packable"
-                    id="packable"
-                    onChange={this.handleCheckboxChange} />}
-                    label="Exclude SBC's/Objectives"
 
+                <div className="filter__item">
+                  <input
+                    type="number"
+                    name="min_rating"
+                    id="min_rating"
+                    min="0"
+                    max="99"
+                    onChange={this.handleInputChange}
+                    value={this.state.min_rating}
+                    placeholder="Min Rating"
                   />
+                  <label for="min_rating">Min Rating</label>
                 </div>
-              </div>
+                <div className="filter__item">
+                  <input
+                    type="number"
+                    name="max_rating"
+                    id="max_rating"
+                    min="0"
+                    max="99"
+                    onChange={this.handleInputChange}
+                    value={this.state.max_rating}
+                    placeholder="Max Rating"
+                  />
+                  <label for="max_rating">Max Rating</label>
+                </div>
+                <div class="filter__checkboxes">
+                  <div class="filter__item checkbox">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.insta}
+                          name="insta"
+                          id="prices"
+                          onChange={this.handleCheckboxChange}
+                        />
+                      }
+                      label="Instagram Format"
+                    />
+                  </div>
 
-              <div>{this.state.possibleCardCount} Cards fulfill the conditions</div>
+                  <div class="filter__item checkbox">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.prices}
+                          name="prices"
+                          id="prices"
+                          onChange={this.handleCheckboxChange}
+                        />
+                      }
+                      label="Show prices on graphic"
+                    />
+                  </div>
+                  <div class="filter__item checkbox">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.counter}
+                          name="counter"
+                          id="counter"
+                          onChange={this.handleCheckboxChange}
+                        />
+                      }
+                      label="Show counter on graphic"
+                    />
+                  </div>
+                  <div class="filter__item checkbox">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.packable}
+                          name="packable"
+                          id="packable"
+                          onChange={this.handleCheckboxChange}
+                        />
+                      }
+                      label="Exclude SBC's/Objectives"
+                    />
+                  </div>
+                </div>
 
-              <Button onClick={this.generateGraphic} variant="contained">
-                Generate Graphic
-              </Button>
-            </FormGroup>
+                <div>
+                  {this.state.possibleCardCount} Cards fulfill the conditions
+                </div>
 
+                <Button onClick={this.generateGraphic} variant="contained">
+                  Generate Graphic
+                </Button>
+              </FormGroup>
             </AccordionDetails>
-
-
-            </Accordion>
+          </Accordion>
         </div>
 
         <div className={"graphic-wrapper"}>
