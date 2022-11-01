@@ -50,7 +50,7 @@ class App extends Component {
       max_rating: 99,
       orderby: "console_price",
       counter: false,
-      packable: true,
+      packable: false,
       promo: "",
       insta: false,
       possibleCardCount: 0,
@@ -131,7 +131,10 @@ class App extends Component {
         process.env.REACT_APP_AJAXSERVER +
           "getGraphicCardCount.php?rarity=" +
           this.state.rarity +
-          (this.state.packable ? "&packable=1" : "")
+          (this.state.packable ? "&packable=1" : "") + 
+          (this.state.promo ? "&promo=" + this.state.promo : "") +
+          "&min_rating=" + this.state.min_rating +
+          "&max_rating=" + this.state.max_rating
       )
       .then((response) => {
         this.setState({ possibleCardCount: response.data });
@@ -314,7 +317,8 @@ class App extends Component {
   handleSingleSelect(event) {
     this.setState({
       [event.target.name]: event.target.value,
-    });
+    }, () => {
+      this.calculatePossibleCards();});
   }
 
   handleCheckboxChange(event) {
@@ -532,15 +536,25 @@ class App extends Component {
                     value={this.state.promo}
                     multiple={false}
                   >
-                    <option key="0" value="0">
-                      -- Please choose a promo --
+                                        <option key="0" value="0">
+                      -- No promo selected --
                     </option>
                     <option key="1" value="totw15">
                       TOTW 1 - 5
                     </option>
-                    <option value="totw6">TOTW 6</option>
+                    <option key="2" value="totw16">
+                      TOTW 1 - 6
+                    </option>
+                    <option key="3" value="totw1">TOTW 1</option>
+                    <option key="4" value="totw2">TOTW 2</option>
+                    <option key="5" value="totw3">TOTW 3</option>
+                    <option key="6" value="totw4">TOTW 4</option>
+                    <option key="7" value="totw5">TOTW 5</option>
+                    <option key="8" value="totw6">TOTW 6</option>
+                    <option key="9" value="sbc">SBC's</option>
+                    <option key="10" value="objective">Objective</option>
                   </select>
-                  <label htmlFor="promo">Promo</label>
+                  <label htmlFor="promo">Grouping</label>
                 </div>
                 <div className="filter__item">
                   <select
