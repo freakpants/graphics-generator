@@ -315,6 +315,9 @@ class App extends Component {
   }
 
   handleSingleSelect(event) {
+    if(event.target.value === "sbc" || event.target.value === "objective") {
+      this.setState({ packable: false });
+    } 
     this.setState({
       [event.target.name]: event.target.value,
     }, () => {
@@ -325,7 +328,12 @@ class App extends Component {
     const { name } = event.target;
     this.setState(
       (prevState) => {
+        
         let oldState = prevState[name];
+        let promo = prevState.promo;
+        if(name === "packable" && !oldState && (promo === "sbc" || promo === "objective")) {
+          promo = 0;
+        }
         if (name === "insta" && oldState === false) {
           this.setState({
             limit: 15,
@@ -334,6 +342,7 @@ class App extends Component {
         }
         return {
           [name]: !oldState,
+          "promo": promo
         };
       },
       () => {
