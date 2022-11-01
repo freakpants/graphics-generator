@@ -41,7 +41,9 @@ class App extends Component {
       title: "",
       emphasis: "",
       rarities: [],
+      nations: [],
       rarity: "",
+      country: "",
       limit: 23,
       scale: 1,
       prices: true,
@@ -67,6 +69,7 @@ class App extends Component {
     this.calculatePossibleCards = this.calculatePossibleCards.bind(this);
     this.calculateScale = this.calculateScale.bind(this);
     this.handleReactSelect = this.handleReactSelect.bind(this);
+    this.setMaxAmount = this.setMaxAmount.bind(this);
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -134,7 +137,8 @@ class App extends Component {
           (this.state.packable ? "&packable=1" : "") + 
           (this.state.promo ? "&promo=" + this.state.promo : "") +
           "&min_rating=" + this.state.min_rating +
-          "&max_rating=" + this.state.max_rating
+          "&max_rating=" + this.state.max_rating + 
+          "&country=" + this.state.country
       )
       .then((response) => {
         this.setState({ possibleCardCount: response.data });
@@ -147,9 +151,15 @@ class App extends Component {
       });
   }
 
-  handleReactSelect(event) {
-    const rarityArray = Array.from(event, (option) => option.value);
-    this.setState({ rarity: rarityArray }, () => {
+  setMaxAmount() {
+    this.setState({ limit: this.state.possibleCardCount > 126 ? 126 : this.state.possibleCardCount }, () => {
+      this.calculateScale();
+    });
+  }
+
+  handleReactSelect(event, action) {
+    const multiArray = Array.from(event, (option) => option.value);
+    this.setState({ [action.name]: multiArray }, () => {
       this.calculatePossibleCards();
     });
   }
@@ -279,6 +289,14 @@ class App extends Component {
         this.setState({ rarities: response.data });
       });
 
+    // get the Nations from the database
+    axios
+      .get(process.env.REACT_APP_AJAXSERVER + "getNations.php")
+      .then((response) => {
+        this.setState({ nations: response.data });
+      });
+    
+
     // count the cards
     this.calculatePossibleCards();
   }
@@ -302,11 +320,17 @@ class App extends Component {
       value = Array.from(selectedOptions, (option) => option.value);
     }
 
+    let title = this.state.title;
+    if(name === "title" || name === "emphasis") {
+      title = true;
+    }
+
     this.calculateScale();
 
     this.setState(
       {
         [name]: value,
+        manualTitle: title
       },
       () => {
         this.calculatePossibleCards();
@@ -384,12 +408,23 @@ class App extends Component {
     });
 
     let rarityOptions = [];
+    
     this.state.rarities.forEach((rarity) => {
       rarityOptions.push({
         value: rarity.param,
         label: rarity.name,
       });
     });
+
+    let nationOptions = [];
+    console.log(this.state.nations);
+    this.state.nations.forEach((nation) => {
+      nationOptions.push({
+        value: nation.code,
+        label: nation.name,
+      });
+    });
+
 
     const customStyles = {
       control: (provided, state) => {
@@ -655,9 +690,22 @@ class App extends Component {
                       options={rarityOptions}
                       isMulti={true}
                       styles={customStyles}
+                      name="rarity"
                     />
                   )}
-                  <label htmlFor="rarity">Card Types</label>
+                  <label htmlFor="rarities">Card Types</label>
+                </div>
+                <div className="filter__item">
+                  {this.state.nations.length > 0 && (
+                    <Select
+                      onChange={this.handleReactSelect}
+                      options={nationOptions}
+                      isMulti={true}
+                      styles={customStyles}
+                      name="country"
+                    />
+                  )}
+                  <label htmlFor="nation">Countries</label>
                 </div>
                 <div className="filter__checkboxes">
                   <div className="filter__item checkbox">
@@ -719,9 +767,13 @@ class App extends Component {
                   {this.state.possibleCardCount} Cards fulfill the conditions
                 </div>
 
+                <Button onClick={this.setMaxAmount} variant="contained">
+                  Set to Maximum Amount
+                </Button>
                 <Button onClick={this.generateGraphic} variant="contained">
                   Generate Graphic
                 </Button>
+
               </FormGroup>
             </AccordionDetails>
           </Accordion>
