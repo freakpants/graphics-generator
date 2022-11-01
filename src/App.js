@@ -239,6 +239,7 @@ class App extends Component {
       packable: this.state.packable,
       promo: this.state.promo,
       insta: this.state.insta,
+      country: this.state.country,
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
