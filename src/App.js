@@ -167,54 +167,61 @@ class App extends Component {
   calculateScale() {
     // if we are dealing with limit, also set scale accordingly
     const value = this.state.limit;
-    if (value >= 121) {
-      this.setState({ scale: 0.45 });
-    } else if (value >= 115) {
-      this.setState({ scale: 0.47 });
-    } else if (value >= 109) {
-      this.setState({ scale: 0.5 });
-    } else if (value >= 91) {
-      this.setState({ scale: 0.51 });
-    } else if (value >= 86) {
-      this.setState({ scale: 0.53 });
-    } else if (value >= 81) {
-      this.setState({ scale: 0.56 });
-    } else if (value >= 76) {
-      this.setState({ scale: 0.59 });
-    } else if (value >= 61) {
-      this.setState({ scale: 0.6 });
-    } else if (value >= 57) {
-      this.setState({ scale: 0.63 });
-    } else if (value >= 53) {
-      this.setState({ scale: 0.68 });
-    } else if (value >= 49) {
-      this.setState({ scale: 0.73 });
-    } else if (value >= 37) {
-      this.setState({ scale: 0.75 });
-    } else if (value >= 34) {
-      this.setState({ scale: 0.79 });
-    } else if (value >= 31) {
-      this.setState({ scale: 0.86 });
-    } else if (value >= 28) {
-      this.setState({ scale: 0.95 });
-    } else if (value >= 19) {
-      this.setState({ scale: 1 });
-    } else if (value >= 17) {
-      this.setState({ scale: 1.06 });
-    } else if (value >= 15) {
-      this.setState({ scale: 1.16 });
-    } else if (value >= 13) {
-      this.setState({ scale: 1.28 });
-    } else if (value >= 6) {
-      this.setState({ scale: 1.42 });
-    } else if (value >= 5) {
-      this.setState({ scale: 1.58 });
-    } else if (value >= 4) {
-      this.setState({ scale: 1.76 });
-    } else if (value >= 3) {
-      this.setState({ scale: 1.97 });
+
+    if(this.state.insta){
+      if(value >= 24){
+        this.setState({scale: 0.35});
+      }
     } else {
-      this.setState({ scale: 2.2 });
+      if (value >= 121) {
+        this.setState({ scale: 0.45 });
+      } else if (value >= 115) {
+        this.setState({ scale: 0.47 });
+      } else if (value >= 109) {
+        this.setState({ scale: 0.5 });
+      } else if (value >= 91) {
+        this.setState({ scale: 0.51 });
+      } else if (value >= 86) {
+        this.setState({ scale: 0.53 });
+      } else if (value >= 81) {
+        this.setState({ scale: 0.56 });
+      } else if (value >= 76) {
+        this.setState({ scale: 0.59 });
+      } else if (value >= 61) {
+        this.setState({ scale: 0.6 });
+      } else if (value >= 57) {
+        this.setState({ scale: 0.63 });
+      } else if (value >= 53) {
+        this.setState({ scale: 0.68 });
+      } else if (value >= 49) {
+        this.setState({ scale: 0.73 });
+      } else if (value >= 37) {
+        this.setState({ scale: 0.75 });
+      } else if (value >= 34) {
+        this.setState({ scale: 0.79 });
+      } else if (value >= 31) {
+        this.setState({ scale: 0.86 });
+      } else if (value >= 28) {
+        this.setState({ scale: 0.95 });
+      } else if (value >= 19) {
+        this.setState({ scale: 1 });
+      } else if (value >= 17) {
+        this.setState({ scale: 1.06 });
+      } else if (value >= 15) {
+        this.setState({ scale: 1.16 });
+      } else if (value >= 13) {
+        this.setState({ scale: 1.28 });
+      } else if (value >= 6) {
+        this.setState({ scale: 1.42 });
+      } else if (value >= 5) {
+        this.setState({ scale: 1.58 });
+      } else if (value >= 4) {
+        this.setState({ scale: 1.76 });
+      } else if (value >= 3) {
+        this.setState({ scale: 1.97 });
+      } else {
+        this.setState({ scale: 2.2 });
+      }
     }
   }
 
@@ -240,6 +247,7 @@ class App extends Component {
       promo: this.state.promo,
       insta: this.state.insta,
       country: this.state.country,
+      user: this.state.user ? this.state.user.uid : "",
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
@@ -555,13 +563,6 @@ class App extends Component {
                     <option key="0" value="0">
                       -- Please choose a background --
                     </option>
-                    {this.state.user !== undefined &&
-                      (this.state.user.email === "freakpants@gmail.com" ||
-                        this.state.user.email === "gisalegendyt@gmail.com") && (
-                        <option key="-1" value="gisalegend">
-                          GISALEGEND
-                        </option>
-                      )}
                     <option value="generic">Generic Fifa 23</option>
                     <option value="heroes">Heroes</option>
                     <option value="icon">Icon</option>
@@ -584,20 +585,24 @@ class App extends Component {
                                         <option key="0" value="0">
                       -- No promo selected --
                     </option>
-                    <option key="1" value="totw15">
+                    <option key="1" value="totw1-5">
                       TOTW 1 - 5
                     </option>
-                    <option key="2" value="totw16">
+                    <option key="2" value="totw1-6">
                       TOTW 1 - 6
                     </option>
-                    <option key="3" value="totw1">TOTW 1</option>
-                    <option key="4" value="totw2">TOTW 2</option>
-                    <option key="5" value="totw3">TOTW 3</option>
-                    <option key="6" value="totw4">TOTW 4</option>
-                    <option key="7" value="totw5">TOTW 5</option>
-                    <option key="8" value="totw6">TOTW 6</option>
-                    <option key="9" value="sbc">SBC's</option>
-                    <option key="10" value="objective">Objective</option>
+                    <option key="3" value="totw1-7">
+                      TOTW 1 - 7
+                    </option>
+                    <option key="4" value="totw1">TOTW 1</option>
+                    <option key="5" value="totw2">TOTW 2</option>
+                    <option key="6" value="totw3">TOTW 3</option>
+                    <option key="7" value="totw4">TOTW 4</option>
+                    <option key="8" value="totw5">TOTW 5</option>
+                    <option key="9" value="totw6">TOTW 6</option>
+                    <option key="12" value="totw7">TOTW 7</option>
+                    <option key="10" value="sbc">SBC's</option>
+                    <option key="11" value="objective">Objective</option>
                   </select>
                   <label htmlFor="promo">Grouping</label>
                 </div>
