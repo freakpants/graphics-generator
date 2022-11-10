@@ -571,6 +571,7 @@ class App extends Component {
                     <option value="totw">TOTW</option>
                     <option value="uefa">UEFA</option>
                     <option value="oop">Out of Packs</option>
+                    <option value="worldcup">Worldcup (no insta)</option>
                   </select>
                   <label htmlFor="background">Background</label>
                 </div>
@@ -594,6 +595,9 @@ class App extends Component {
                     <option key="3" value="totw1-7">
                       TOTW 1 - 7
                     </option>
+                    <option key="14" value="totw1-8">
+                      TOTW 1 - 8
+                    </option>
                     <option key="4" value="totw1">TOTW 1</option>
                     <option key="5" value="totw2">TOTW 2</option>
                     <option key="6" value="totw3">TOTW 3</option>
@@ -601,6 +605,7 @@ class App extends Component {
                     <option key="8" value="totw5">TOTW 5</option>
                     <option key="9" value="totw6">TOTW 6</option>
                     <option key="12" value="totw7">TOTW 7</option>
+                    <option key="13" value="totw8">TOTW 8</option>
                     <option key="10" value="sbc">SBC's</option>
                     <option key="11" value="objective">Objective</option>
                   </select>
