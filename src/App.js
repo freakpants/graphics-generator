@@ -56,6 +56,7 @@ class App extends Component {
       promo: "",
       insta: false,
       possibleCardCount: 0,
+      avoid_doubles: false,
     };
 
     this.triggerTwitterLogin = this.triggerTwitterLogin.bind(this);
@@ -248,6 +249,7 @@ class App extends Component {
       insta: this.state.insta,
       country: this.state.country,
       user: this.state.user ? this.state.user.uid : "",
+      avoid_doubles: this.state.avoid_doubles,
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
@@ -779,6 +781,19 @@ class App extends Component {
                         />
                       }
                       label="Exclude SBC's/Objectives"
+                    />
+                  </div>
+                  <div className="filter__item checkbox">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.avoid_doubles}
+                          name="avoid_doubles"
+                          id="avoid_doubles"
+                          onChange={this.handleCheckboxChange}
+                        />
+                      }
+                      label="Avoid having the same base player twice"
                     />
                   </div>
                 </div>
