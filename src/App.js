@@ -139,7 +139,8 @@ class App extends Component {
           (this.state.promo ? "&promo=" + this.state.promo : "") +
           "&min_rating=" + this.state.min_rating +
           "&max_rating=" + this.state.max_rating + 
-          "&country=" + this.state.country
+          "&country=" + this.state.country + 
+          "&avoid_doubles=" + this.state.avoid_doubles
       )
       .then((response) => {
         this.setState({ possibleCardCount: response.data });
