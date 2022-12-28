@@ -37,7 +37,7 @@ class App extends Component {
     super(props);
     this.state = {
       image: "",
-      background: "oop",
+      background: "wildcards",
       title: "",
       emphasis: "",
       rarities: [],
@@ -571,7 +571,9 @@ class App extends Component {
                     <option value="totw">TOTW</option>
                     <option value="uefa">UEFA</option>
                     <option value="oop">Out of Packs</option>
-                    <option value="worldcup">Worldcup (no insta)</option>
+                    <option value="wildcards">Winter Wildcards</option>
+                    <option value="worldcup">Worldcup</option>
+                    <option value="wcheroes">Worldcup Heroes</option>
                   </select>
                   <label htmlFor="background">Background</label>
                 </div>
@@ -583,7 +585,7 @@ class App extends Component {
                     value={this.state.promo}
                     multiple={false}
                   >
-                                        <option key="0" value="0">
+                                        <option key="0" value="">
                       -- No promo selected --
                     </option>
                     <option key="1" value="totw1-5">
@@ -598,6 +600,9 @@ class App extends Component {
                     <option key="14" value="totw1-8">
                       TOTW 1 - 8
                     </option>
+                    <option key="16" value="totw1-9">
+                      TOTW 1 - 9
+                    </option>
                     <option key="4" value="totw1">TOTW 1</option>
                     <option key="5" value="totw2">TOTW 2</option>
                     <option key="6" value="totw3">TOTW 3</option>
@@ -606,8 +611,11 @@ class App extends Component {
                     <option key="9" value="totw6">TOTW 6</option>
                     <option key="12" value="totw7">TOTW 7</option>
                     <option key="13" value="totw8">TOTW 8</option>
+                    <option key="17" value="totw9">TOTW 9</option>
                     <option key="10" value="sbc">SBC's</option>
                     <option key="11" value="objective">Objective</option>
+                    <option key="15" value="base-icons">Base Icons</option>
+                    <option key="18" value="october">October</option>
                   </select>
                   <label htmlFor="promo">Grouping</label>
                 </div>
@@ -620,6 +628,7 @@ class App extends Component {
                   >
                     <option value="rating">Rating</option>
                     <option value="console_price">Price on Consoles</option>
+                    <option value="nation">Country</option>
                   </select>
                   <label htmlFor="orderby">Order by</label>
                 </div>
