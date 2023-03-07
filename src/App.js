@@ -566,6 +566,7 @@ class App extends Component {
                     <option key="0" value="0">
                       -- Please choose a background --
                     </option>
+                    <option value="fantasy">Fantasy FUT</option>
                     <option value="futurestars">Future Stars</option>
                     <option value="generic">Generic Fifa 23</option>
                     <option value="heroes">Heroes</option>
@@ -619,6 +620,7 @@ class App extends Component {
                     <option key="10" value="sbc">SBC's</option>
                     <option key="11" value="objective">Objective</option>
                     <option key="15" value="base-icons">Base Icons</option>
+                    <option key="19" value="prime-icons">Prime Icons</option>
                     <option key="18" value="october">October</option>
                   </select>
                   <label htmlFor="promo">Grouping</label>
