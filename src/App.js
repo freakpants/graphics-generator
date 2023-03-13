@@ -52,7 +52,7 @@ class App extends Component {
       max_rating: 99,
       orderby: "console_price",
       counter: false,
-      packable: false,
+      packable: true,
       promo: "",
       insta: false,
       possibleCardCount: 0,
