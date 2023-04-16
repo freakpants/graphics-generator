@@ -90,7 +90,7 @@ class App extends Component {
 
     const appCheck = initializeAppCheck(fireApp, {
       provider: new ReCaptchaV3Provider(
-        "6Lfj7aAiAAAAAOZtB0a6MNtSRdFFdCxk5hCPkjWC"
+        "6LeTleAkAAAAADU-IaZfiKrrHNrErJmwD9aQoVOq"
       ),
       isTokenAutoRefreshEnabled: true,
     });
