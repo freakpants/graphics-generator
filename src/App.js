@@ -50,6 +50,7 @@ class App extends Component {
       optionsExpanded: false,
       min_rating: 0,
       max_rating: 99,
+      overunder: 0,
       orderby: "console_price",
       counter: false,
       packable: true,
@@ -140,7 +141,8 @@ class App extends Component {
           "&min_rating=" + this.state.min_rating +
           "&max_rating=" + this.state.max_rating + 
           "&country=" + this.state.country + 
-          "&avoid_doubles=" + this.state.avoid_doubles
+          "&avoid_doubles=" + this.state.avoid_doubles +
+          "&overunder=" + this.state.overunder 
       )
       .then((response) => {
         this.setState({ possibleCardCount: response.data });
@@ -251,6 +253,7 @@ class App extends Component {
       country: this.state.country,
       user: this.state.user ? this.state.user.uid : "",
       avoid_doubles: this.state.avoid_doubles,
+      overunder: this.state.overunder,
     }).then((result) => {
       // Read result of the Cloud Function.
       console.log(result);
@@ -709,6 +712,18 @@ class App extends Component {
                     placeholder="Max Rating"
                   />
                   <label htmlFor="max_rating">Max Rating</label>
+                </div>
+                <div className="filter__item">
+                  <input
+                    type="number"
+                    name="overunder"
+                    id="overunder"
+                    min="0"
+                    onChange={this.handleInputChange}
+                    value={this.state.overunder}
+                    placeholder="Highlight Price"
+                  />
+                  <label htmlFor="overunder">Highlight Price</label>
                 </div>
                 <div className="filter__item">
                   {this.state.rarities.length > 0 && (
