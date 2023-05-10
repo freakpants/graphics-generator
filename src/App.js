@@ -626,6 +626,10 @@ class App extends Component {
                     <option key="15" value="base-icons">Base Icons</option>
                     <option key="19" value="prime-icons">Prime Icons</option>
                     <option key="18" value="october">October</option>
+                    <option key="20" value="totspl">TOTS Premier League</option>
+                    <option key="21" value="totsere">TOTS Eredivisie</option>
+                    <option key="22" value="totsefl">TOTS EFL</option>
+                    <option key="23" value="totscomm">Community TOTS</option>
                   </select>
                   <label htmlFor="promo">Grouping</label>
                 </div>
