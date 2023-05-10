@@ -37,7 +37,7 @@ class App extends Component {
     super(props);
     this.state = {
       image: "",
-      background: "birthday",
+      background: "tots",
       title: "",
       emphasis: "",
       rarities: [],
@@ -569,6 +569,7 @@ class App extends Component {
                     <option key="0" value="0">
                       -- Please choose a background --
                     </option>
+                    <option value="tots">TOTS</option>
                     <option value="fantasy">Fantasy FUT</option>
                     <option value="birthday">FUT Birthday</option>
                     <option value="futurestars">Future Stars</option>
