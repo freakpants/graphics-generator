@@ -631,6 +631,7 @@ class App extends Component {
                     <option key="21" value="totsere">TOTS Eredivisie</option>
                     <option key="22" value="totsefl">TOTS EFL</option>
                     <option key="23" value="totscomm">Community TOTS</option>
+                    <option key="24" value="totsbl">TOTS Bundesliga</option>
                   </select>
                   <label htmlFor="promo">Grouping</label>
                 </div>
