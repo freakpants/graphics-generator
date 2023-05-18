@@ -56,6 +56,7 @@ class App extends Component {
       packable: true,
       promo: "",
       insta: false,
+      glasses: true,
       possibleCardCount: 0,
       avoid_doubles: false,
     };
@@ -252,6 +253,7 @@ class App extends Component {
       packable: this.state.packable,
       promo: this.state.promo,
       insta: this.state.insta,
+      glasses: this.state.glasses,
       country: this.state.country,
       user: this.state.user ? this.state.user.uid : "",
       avoid_doubles: this.state.avoid_doubles,
@@ -764,11 +766,25 @@ class App extends Component {
                         <Checkbox
                           checked={this.state.insta}
                           name="insta"
-                          id="prices"
+                          id="insta"
                           onChange={this.handleCheckboxChange}
                         />
                       }
                       label="Instagram Format"
+                    />
+                  </div>
+
+                  <div className="filter__item checkbox">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.glasses}
+                          name="glasses"
+                          id="glasses"
+                          onChange={this.handleCheckboxChange}
+                        />
+                      }
+                      label="My name is Jason and I can't find my glasses"
                     />
                   </div>
 
