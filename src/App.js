@@ -195,7 +195,7 @@ class App extends Component {
       } else if (value >= 76) {
         this.setState({ scale: 0.59 });
       } else if (value >= 61) {
-        this.setState({ scale: 0.6 });
+        this.setState({ scale: 0.66 });
       } else if (value >= 57) {
         this.setState({ scale: 0.63 });
       } else if (value >= 53) {
