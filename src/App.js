@@ -573,6 +573,7 @@ class App extends Component {
                     <option key="0" value="0">
                       -- Please choose a background --
                     </option>
+                    <option value="futties">Futties</option>
                     <option value="tots">TOTS</option>
                     <option value="fantasy">Fantasy FUT</option>
                     <option value="birthday">FUT Birthday</option>
@@ -638,6 +639,7 @@ class App extends Component {
                     <option key="24" value="totsb">TOTS Bundesliga</option>
                     <option key="25" value="tots3major">TOTS & TOTS Moments PL/LaLiga/Ligue 1</option>
                     <option key="26" value="maraprmay">March/April/May</option>
+                    <option key="27" value="futties1">Futties Batch 1</option>
                   </select>
                   <label htmlFor="promo">Grouping</label>
                 </div>
