@@ -574,6 +574,7 @@ class App extends Component {
                       -- Please choose a background --
                     </option>
                     <option value="futties">Futties</option>
+                    <option value="shapeshifters">Shapeshifters</option>
                     <option value="tots">TOTS</option>
                     <option value="fantasy">Fantasy FUT</option>
                     <option value="birthday">FUT Birthday</option>
