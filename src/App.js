@@ -640,7 +640,10 @@ class App extends Component {
                     <option key="24" value="totsb">TOTS Bundesliga</option>
                     <option key="25" value="tots3major">TOTS & TOTS Moments PL/LaLiga/Ligue 1</option>
                     <option key="26" value="maraprmay">March/April/May</option>
-                    <option key="27" value="futties1">Futties Batch 1</option>
+                    <option key="27" value="bestof1">Best of Batch 1</option>
+                    <option key="28" value="futties1">Futties Team 1</option>
+                    <option key="29" value="futties2">Futties Team 2</option>
+                    <option key="30" value="futties">Futties Team 1-2</option>
                   </select>
                   <label htmlFor="promo">Grouping</label>
                 </div>
